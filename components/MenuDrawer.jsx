@@ -1,32 +1,80 @@
 import React from "react";
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
+import CustomText from "./CustomText";
 
 const MenuDrawer = ({ navigation }) => {
     return (
-        <DrawerContentScrollView style={{ backgroundColor: "#fff", paddingVertical: 20 }}>
-            <View style={{ alignItems: "center", marginTop: 20, marginBottom: 100 }}>
-                <Image source={require("../assets/foto-usuario.png")} style={{ width: 80, height: 80, borderRadius: 40, marginBottom: 10 }} />
-                <Text style={{ fontSize: 16, color: "#a40a9b" }}>Mi perfil</Text>
+        <DrawerContentScrollView contentContainerStyle={styles.container}>
+            <View>
+                <View style={styles.profile}>
+                    <Image source={require("../assets/foto-usuario.png")} style={styles.avatar} />
+                    <CustomText style={styles.profileText}>Mi perfil</CustomText>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("Inicio")}>
+                    <CustomText style={styles.item}>Inicio</CustomText>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <CustomText style={styles.item}>Categoría 1</CustomText>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <CustomText style={styles.item}>Categoría 2</CustomText>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <CustomText style={styles.item}>Categoría 3</CustomText>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("Inicio")}>
-                <Text style={{ fontSize: 16, color: "#a40a9b", paddingHorizontal: 20, marginVertical: 5 }}>Inicio</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={{ fontSize: 16, color: "#a40a9b", paddingHorizontal: 20, marginVertical: 5 }}>Categoría 1</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={{ fontSize: 16, color: "#a40a9b", paddingHorizontal: 20, marginVertical: 5 }}>Categoría 2</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Text style={{ fontSize: 16, color: "#a40a9b", paddingHorizontal: 20, marginVertical: 5 }}>Categoría 3</Text>
-            </TouchableOpacity>
-            <View style={{ alignItems: "center", marginTop: 300 }}>
-                <Image source={require("../assets/logo-drawer.png")} style={{ width: 120, height: 35, resizeMode: "contain" }} />
-                <Text style={{ fontSize: 10, color: "#888", marginTop: 10 }}>© 2025 GAMING SHOP</Text>
+            <View style={styles.bottomContainer}>
+                <Image source={require("../assets/logo-drawer.png")} style={styles.logo} />
+                <CustomText style={styles.copy}>© 2025 GAMING SHOP</CustomText>
             </View>
         </DrawerContentScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        justifyContent: "space-between",
+        paddingVertical: 20,
+        backgroundColor: "#fff",
+    },
+    profile: {
+        alignItems: "center",
+        justifyContent: "center",
+        height: 150,
+        marginBottom: 40,
+    },
+    avatar: {
+        width: 80,
+        height: 80,
+        borderRadius: 40,
+        marginBottom: 10,
+    },
+    profileText: {
+        fontSize: 16,
+        color: "#a40a9b",
+    },
+    item: {
+        fontSize: 16,
+        color: "#a40a9b",
+        paddingHorizontal: 20,
+        marginVertical: 5,
+    },
+    bottomContainer: {
+        alignItems: "center",
+        paddingVertical: 20,
+    },
+    logo: {
+        width: 150,
+        height: 40,
+        resizeMode: "contain",
+    },
+    copy: {
+        fontSize: 10,
+        color: "#888",
+        marginTop: 10,
+    },
+});
 
 export default MenuDrawer;
