@@ -1,0 +1,146 @@
+[
+    {
+        "id": "1",
+        "title": "Spider-Man 2",
+        "price": 69.99,
+        "category": "ps5",
+        "image": "https://m.media-amazon.com/images/I/81WUPcfQ9OL._AC_SL1500_.jpg",
+        "description": "Peter Parker y Miles Morales unen fuerzas en esta secuela épica exclusiva para PS5."
+    },
+    {
+        "id": "2",
+        "title": "Horizon Forbidden West",
+        "price": 59.99,
+        "category": "ps5",
+        "image": "https://m.media-amazon.com/images/I/91Xg+jY1NVL._AC_SL1500_.jpg",
+        "description": "Explora tierras nuevas y misteriosas en esta secuela del éxito de Guerrilla Games."
+    },
+    {
+        "id": "3",
+        "title": "Demon's Souls Remake",
+        "price": 79.99,
+        "category": "ps5",
+        "image": "https://m.media-amazon.com/images/I/81XrE5rA4aL._AC_SL1500_.jpg",
+        "description": "El clásico de culto renovado con gráficos next-gen para PS5."
+    },
+    {
+        "id": "4",
+        "title": "God of War Ragnarok",
+        "price": 59.99,
+        "category": "ps4",
+        "image": "https://juegosdigitalesargentina.com/files/images/productos/1643413181-god-of-war-ragnarok-ps4-pre-orden.jpg",
+        "description": "Kratos y Atreus luchan por sobrevivir al fin de los tiempos en esta aventura nórdica."
+    },
+    {
+        "id": "5",
+        "title": "The Last of Us Part II",
+        "price": 39.99,
+        "category": "ps4",
+        "image": "https://m.media-amazon.com/images/I/81hE8uOG-0L._AC_SL1500_.jpg",
+        "description": "Una historia visceral de venganza en un mundo post-apocalíptico."
+    },
+    {
+        "id": "6",
+        "title": "Ghost of Tsushima",
+        "price": 49.99,
+        "category": "ps4",
+        "image": "https://m.media-amazon.com/images/I/81GAvHfL5TL._AC_SL1500_.jpg",
+        "description": "Conviértete en un samurái y protege tu isla natal de la invasión mongol."
+    },
+    {
+        "id": "7",
+        "title": "Halo Infinite",
+        "price": 49.99,
+        "category": "xbox-x",
+        "image": "https://www.storegames.ar/files/images/thumbs/productos_300x400_1644613415-halo-infinite-xbox-one.jpg",
+        "description": "El Jefe Maestro regresa en una nueva misión por salvar a la humanidad."
+    },
+    {
+        "id": "8",
+        "title": "Forza Horizon 5",
+        "price": 59.99,
+        "category": "xbox-x",
+        "image": "https://m.media-amazon.com/images/I/91X-6o4sHkL._AC_SL1500_.jpg",
+        "description": "Carreras de mundo abierto en los vibrantes paisajes de México."
+    },
+    {
+        "id": "9",
+        "title": "Starfield",
+        "price": 69.99,
+        "category": "xbox-x",
+        "image": "https://m.media-amazon.com/images/I/81c+1tE5UFL._AC_SL1500_.jpg",
+        "description": "El nuevo RPG espacial de Bethesda exclusivo para Xbox Series X."
+    },
+    {
+        "id": "10",
+        "title": "Gears 5",
+        "price": 29.99,
+        "category": "xbox-s",
+        "image": "https://m.media-amazon.com/images/I/81fRrDZ4gQL._AC_SL1500_.jpg",
+        "description": "Combate épico contra la amenaza Swarm en esta entrega de la saga Gears."
+    },
+    {
+        "id": "11",
+        "title": "Microsoft Flight Simulator",
+        "price": 59.99,
+        "category": "xbox-s",
+        "image": "https://m.media-amazon.com/images/I/91C7x7Oi3yL._AC_SL1500_.jpg",
+        "description": "Simulación de vuelo realista con mapas de todo el mundo."
+    },
+    {
+        "id": "12",
+        "title": "Sea of Thieves",
+        "price": 39.99,
+        "category": "xbox-s",
+        "image": "https://m.media-amazon.com/images/I/81Xq4T0Qh9L._AC_SL1500_.jpg",
+        "description": "Aventura pirata multijugador en un mundo compartido."
+    },
+    {
+        "id": "13",
+        "title": "Zelda: Tears of the Kingdom",
+        "price": 59.99,
+        "category": "switch-1",
+        "image": "https://juegosdigitalesargentina.com/files/images/thumbs/productos_300x400_1684171975-the-legend-of-zelda-tears-of-the-kingdom-nintendo-switch-0.jpg",
+        "description": "La esperada secuela de Breath of the Wild llega con nuevas mecánicas y exploración."
+    },
+    {
+        "id": "14",
+        "title": "Mario Kart 8 Deluxe",
+        "price": 49.99,
+        "category": "switch-1",
+        "image": "https://m.media-amazon.com/images/I/81OIPBfmA3L._AC_SL1500_.jpg",
+        "description": "Carreras caóticas con los personajes clásicos de Mario."
+    },
+    {
+        "id": "15",
+        "title": "Animal Crossing: New Horizons",
+        "price": 54.99,
+        "category": "switch-1",
+        "image": "https://m.media-amazon.com/images/I/81sVHU8q7rL._AC_SL1500_.jpg",
+        "description": "Crea tu paraíso insular personalizado en este simulador relajante."
+    },
+    {
+        "id": "16",
+        "title": "Metroid Prime 4",
+        "price": 69.99,
+        "category": "switch-2",
+        "image": "https://assets.nintendo.com/image/upload/ar_16:9,c_lpad,w_656/b_white/f_auto/q_auto/ncom/software/switch/70070000010192/4c06db0f8e83ab22fbdf785a0773bdfcb78aad2a5d0d0b6823c6b60dbe482280",
+        "description": "El regreso de Samus Aran en una nueva aventura de acción en primera persona."
+    },
+    {
+        "id": "17",
+        "title": "Super Mario Odyssey 2",
+        "price": 59.99,
+        "category": "switch-2",
+        "image": "https://m.media-amazon.com/images/I/81yTwOk3qUL._AC_SL1500_.jpg",
+        "description": "Nuevas aventuras tridimensionales con Mario y su sombrero mágico."
+    },
+    {
+        "id": "18",
+        "title": "Splatoon 4",
+        "price": 54.99,
+        "category": "switch-2",
+        "image": "https://m.media-amazon.com/images/I/81uKZ+5q4IL._AC_SL1500_.jpg",
+        "description": "Guerras de pintura multijugador con nuevas armas y escenarios."
+    }
+]

@@ -5,7 +5,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import StackNavigator from "./navigation/StackNavigator";
 
-
 SplashScreen.preventAutoHideAsync();
 
 DefaultText.defaultProps = DefaultText.defaultProps || {};
@@ -41,9 +40,7 @@ export default function App() {
     }
   }, [appIsReady]);
 
-  if (!appIsReady) {
-    return null;
-  }
+  if (!appIsReady) return null;
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>

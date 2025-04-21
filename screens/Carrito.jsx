@@ -3,7 +3,7 @@ import { SafeAreaView, View, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";
 
-const CarritoScreen = ({ navigation }) => {
+const Carrito = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
             <View style={{
@@ -52,4 +52,4 @@ const CarritoScreen = ({ navigation }) => {
     );
 };
 
-export default CarritoScreen;
+export default Carrito;
