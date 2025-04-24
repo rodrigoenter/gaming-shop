@@ -1,9 +1,9 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Home from '../screens/Home';
 import MenuDrawer from '../components/MenuDrawer';
 import ItemListCategory from '../screens/ItemListCategory';
+import StackNavigator from './StackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,8 +26,15 @@ const DrawerNavigator = () => {
             }}
             drawerContent={(props) => <MenuDrawer {...props} />}
         >
-            <Drawer.Screen name="Inicio" component={Home} />
-            <Drawer.Screen name="Productos" component={ItemListCategory} />
+            <Drawer.Screen
+                name="Inicio"
+                component={StackNavigator}
+                options={{ swipeEnabled: false }}
+            />
+            <Drawer.Screen
+                name="Productos"
+                component={ItemListCategory}
+            />
         </Drawer.Navigator>
     );
 };

@@ -9,9 +9,9 @@ const Carrito = ({ navigation }) => {
             <View style={{
                 flexDirection: "row",
                 alignItems: "center",
-                paddingHorizontal: 20,
+                paddingHorizontal: 15,
                 height: 80,
-                marginTop: 70
+                marginTop: 40
             }}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: "row", alignItems: "center" }}>
                     <Ionicons name="arrow-back" size={30} color="#2912a7" />
@@ -20,7 +20,6 @@ const Carrito = ({ navigation }) => {
                     </CustomText>
                 </TouchableOpacity>
             </View>
-
             <View style={{ alignItems: "center", justifyContent: "center", marginTop: 75 }}>
                 <Image
                     source={require("../assets/empty-cart.png")}
@@ -39,7 +38,8 @@ const Carrito = ({ navigation }) => {
                     style={{
                         marginTop: 50,
                         backgroundColor: "#2912a7",
-                        padding: 10,
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
                         borderRadius: 50
                     }}
                 >

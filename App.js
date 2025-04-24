@@ -3,7 +3,7 @@ import { Text as DefaultText } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
-import StackNavigator from "./navigation/StackNavigator";
+import DrawerNavigator from "./navigation/DrawerNavigator";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,7 +44,7 @@ export default function App() {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      <StackNavigator />
+      <DrawerNavigator />
     </NavigationContainer>
   );
 }
