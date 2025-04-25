@@ -4,6 +4,9 @@ import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import DrawerNavigator from "./navigation/DrawerNavigator";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import Toast from 'react-native-toast-message';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,8 +46,11 @@ export default function App() {
   if (!appIsReady) return null;
 
   return (
-    <NavigationContainer onReady={onLayoutRootView}>
-      <DrawerNavigator />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <DrawerNavigator />
+      </NavigationContainer>
+      <Toast />
+    </Provider>
   );
 }

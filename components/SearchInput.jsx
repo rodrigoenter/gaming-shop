@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../components/colors';
 
 const SearchInput = ({ value, onChangeText }) => {
     return (
@@ -8,13 +9,13 @@ const SearchInput = ({ value, onChangeText }) => {
             <Ionicons
                 name="search"
                 size={18}
-                color="#2912a7"
+                color={Colors.primary}
                 style={styles.searchIcon}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Buscar"
-                placeholderTextColor="#2912a7"
+                placeholderTextColor={Colors.searchPlaceholder}
                 value={value}
                 onChangeText={onChangeText}
             />
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 20,
         borderWidth: 1,
-        borderColor: '#756ca6',
+        borderColor: Colors.accentDark,
         borderRadius: 25,
         paddingHorizontal: 15,
         marginBottom: 40,

@@ -3,13 +3,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-
 import Home from '../screens/Home';
 import Favoritos from '../screens/Favoritos';
 import Ordenes from '../screens/Ordenes';
 import Previews from '../screens/Previews';
 import Carrito from '../screens/Carrito';
 import Detail from '../screens/Detail';
+import { Colors } from '../components/colors';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,8 +27,8 @@ const BottomTabs = () => (
         initialRouteName="Home"
         screenOptions={({ route }) => ({
             headerShown: false,
-            tabBarActiveTintColor: '#a40a9b',
-            tabBarInactiveTintColor: '#2912a7',
+            tabBarActiveTintColor: Colors.secondary,
+            tabBarInactiveTintColor: Colors.primary,
             tabBarButton: (props) => (
                 <TouchableOpacity
                     {...props}
@@ -60,7 +60,7 @@ const BottomTabs = () => (
                 elevation: 0,
                 shadowOpacity: 0,
                 borderTopWidth: 0.5,
-                borderTopColor: '#ccc',
+                borderTopColor: Colors.inactive,
             }
         })}
     >

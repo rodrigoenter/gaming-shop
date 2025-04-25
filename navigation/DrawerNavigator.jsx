@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import MenuDrawer from '../components/MenuDrawer';
 import ItemListCategory from '../screens/ItemListCategory';
 import StackNavigator from './StackNavigator';
+import { Colors } from '../components/colors';
 
 const Drawer = createDrawerNavigator();
 
@@ -13,7 +14,7 @@ const DrawerNavigator = () => {
             screenOptions={{
                 headerShown: false,
                 drawerStyle: {
-                    backgroundColor: '#fff',
+                    backgroundColor: Colors.background,
                     width: '75%',
                 },
                 drawerType: Platform.OS === 'ios' ? 'slide' : 'front',

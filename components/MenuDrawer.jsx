@@ -10,6 +10,7 @@ import SeriesXIcon from "../assets/iconos_consolas/series_x.svg";
 import SeriesSIcon from "../assets/iconos_consolas/series_s.svg";
 import Switch1Icon from "../assets/iconos_consolas/switch_1.svg";
 import Switch2Icon from "../assets/iconos_consolas/switch_2.svg";
+import { Colors } from "../components/colors";
 
 const categorias = [
     { nombre: "Playstation", icono: "logo-playstation", subcategorias: ["PS5", "PS4"] },
@@ -70,7 +71,7 @@ const MenuDrawer = ({ navigation }) => {
                     navigation.closeDrawer();
                 }}>
                     <View style={styles.iconRow}>
-                        <Ionicons name="home-outline" size={18} color="#2912a7" style={styles.icon} />
+                        <Ionicons name="home-outline" size={18} color={Colors.primary} style={styles.icon} />
                         <CustomText style={styles.item}>Inicio</CustomText>
                     </View>
                 </TouchableOpacity>
@@ -91,7 +92,7 @@ const MenuDrawer = ({ navigation }) => {
                                 }}
                                 style={styles.iconRow}
                             >
-                                <Ionicons name={cat.icono} size={20} color="#2912a7" style={styles.icon} />
+                                <Ionicons name={cat.icono} size={20} color={Colors.primary} style={styles.icon} />
                                 <CustomText style={styles.item}>{cat.nombre}</CustomText>
                             </TouchableOpacity>
                             {expanded[cat.nombre] && cat.subcategorias.map((sub, i) => (
@@ -130,20 +131,20 @@ const MenuDrawer = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flexGrow: 1, justifyContent: "space-between", paddingVertical: 20, backgroundColor: "#fff" },
+    container: { flexGrow: 1, justifyContent: "space-between", paddingVertical: 20, backgroundColor: Colors.background },
     profile: { alignItems: "center", justifyContent: "center", height: 150, marginBottom: 20 },
     avatar: { width: 80, height: 80, borderRadius: 40, marginBottom: 10 },
-    profileText: { fontSize: 16, color: "#a40a9b" },
+    profileText: { fontSize: 16, color: Colors.secondary },
     iconRow: { flexDirection: "row", alignItems: "center", paddingHorizontal: 20, marginVertical: 5 },
     icon: { marginRight: 10 },
-    item: { fontSize: 16, color: "#a40a9b" },
+    item: { fontSize: 16, color: Colors.secondary },
     subItemContainer: { paddingLeft: 50 },
-    subItem: { fontSize: 14, color: "#2912a7", paddingVertical: 2 },
+    subItem: { fontSize: 14, color: Colors.primary, paddingVertical: 2 },
     noResultsContainer: { paddingHorizontal: 20, marginTop: 10 },
-    noResultsText: { fontSize: 14, color: "#2912a7", fontStyle: "italic" },
+    noResultsText: { fontSize: 14, color: Colors.primary, fontStyle: "italic" },
     bottomContainer: { alignItems: "center", paddingVertical: 20 },
     logo: { width: 150, height: 40, resizeMode: "contain" },
-    copy: { fontSize: 10, color: "#888", marginTop: 10 },
+    copy: { fontSize: 10, color: Colors.textSecondary, marginTop: 10 },
 });
 
 export default MenuDrawer;

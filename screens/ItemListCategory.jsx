@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import allProducts from '../data/juegos.json';
-import Card from '../components/Card';
+import ProductCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
+import { Colors } from '../components/colors';
 
 const ItemListCategory = ({ route }) => {
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -29,12 +30,25 @@ const ItemListCategory = ({ route }) => {
 
     return (
         <View style={styles.container}>
-            <SearchInput value={searchQuery} onChangeText={setSearchQuery} />
+            <SearchInput
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                placeholder="Buscar productos..."
+            />
+
             <FlatList
                 data={filteredProducts}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <Card item={item} />}
-                contentContainerStyle={styles.list}
+                renderItem={({ item }) => <ProductCard item={item} />}
+                contentContainerStyle={styles.listContent}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={
+                    <View style={styles.emptyContainer}>
+                        <CustomText style={styles.emptyText}>
+                            No se encontraron productos
+                        </CustomText>
+                    </View>
+                }
             />
         </View>
     );
@@ -43,11 +57,22 @@ const ItemListCategory = ({ route }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: Colors.background,
         paddingHorizontal: 16,
     },
-    list: {
-        paddingVertical: 16,
+    listContent: {
+        paddingBottom: 30,
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 100,
+    },
+    emptyText: {
+        fontSize: 16,
+        color: Colors.textSecondary,
+        textAlign: 'center',
     },
 });
 
