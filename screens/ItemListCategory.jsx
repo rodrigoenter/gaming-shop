@@ -1,32 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import allProducts from '../data/juegos.json';
+import React, { useState, useMemo } from 'react';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import ProductCard from '../components/Card';
 import SearchInput from '../components/SearchInput';
+import CustomText from '../components/CustomText';
 import { Colors } from '../components/colors';
+import { useGetProductsByCategoryQuery } from '../services/shopServices';
 
 const ItemListCategory = ({ route }) => {
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-
     const { categoria } = route.params || {};
 
-    useEffect(() => {
-        let filtered = allProducts;
+    const categoryKey = categoria?.toLowerCase().replace(/\s/g, '-');
 
-        if (categoria) {
-            const categoryKey = categoria.toLowerCase().replace(/\s/g, '-');
-            filtered = filtered.filter(product => product.category === categoryKey);
-        }
+    const { data, isLoading, isError } = useGetProductsByCategoryQuery(categoryKey);
 
-        if (searchQuery) {
-            filtered = filtered.filter(product =>
-                product.title.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        }
+    const filteredProducts = useMemo(() => {
+        if (!data) return [];
 
-        setFilteredProducts(filtered);
-    }, [searchQuery, categoria]);
+        if (!searchQuery) return data;
+
+        return data.filter(product =>
+            product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [data, searchQuery]);
+
+    if (isLoading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color={Colors.primary} />
+                <CustomText>Cargando productos...</CustomText>
+            </View>
+        );
+    }
+
+    if (isError) {
+        return (
+            <View style={styles.errorContainer}>
+                <CustomText style={styles.errorText}>
+                    Error al cargar los productos. Verifica tu conexión.
+                </CustomText>
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
@@ -72,6 +87,21 @@ const styles = StyleSheet.create({
     emptyText: {
         fontSize: 16,
         color: Colors.textSecondary,
+        textAlign: 'center',
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    errorText: {
+        fontSize: 16,
+        color: 'red',
         textAlign: 'center',
     },
 });

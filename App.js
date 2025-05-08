@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import DrawerNavigator from "./navigation/DrawerNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import Toast from 'react-native-toast-message';
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
 

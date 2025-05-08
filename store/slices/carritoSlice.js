@@ -1,19 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+    items: [],
+};
 
 const carritoSlice = createSlice({
-    name: 'carrito',
-    initialState: {
-        items: [],
-    },
+    name: "carrito",
+    initialState,
     reducers: {
         agregarAlCarrito: (state, action) => {
-            const product = action.payload;
-            const existingProduct = state.items.find(item => item.id === product.id);
-
-            if (existingProduct) {
-                existingProduct.quantity += 1;
+            const productoExistente = state.items.find(item => item.id === action.payload.id);
+            if (productoExistente) {
+                productoExistente.quantity += 1;
             } else {
-                state.items.push({ ...product, quantity: 1 });
+                state.items.push({ ...action.payload, quantity: 1 });
             }
         },
         quitarDelCarrito: (state, action) => {
@@ -23,15 +23,17 @@ const carritoSlice = createSlice({
             state.items = [];
         },
         aumentarCantidad: (state, action) => {
-            const product = state.items.find(item => item.id === action.payload);
-            if (product) {
-                product.quantity += 1;
+            const item = state.items.find(item => item.id === action.payload);
+            if (item) {
+                item.quantity += 1;
             }
         },
         disminuirCantidad: (state, action) => {
-            const product = state.items.find(item => item.id === action.payload);
-            if (product && product.quantity > 1) {
-                product.quantity -= 1;
+            const item = state.items.find(item => item.id === action.payload);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                state.items = state.items.filter(i => i.id !== action.payload);
             }
         },
     },
@@ -42,7 +44,7 @@ export const {
     quitarDelCarrito,
     vaciarCarrito,
     aumentarCantidad,
-    disminuirCantidad
+    disminuirCantidad,
 } = carritoSlice.actions;
 
 export default carritoSlice.reducer;

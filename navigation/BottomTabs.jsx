@@ -1,15 +1,15 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import { Colors } from '../components/colors';
 import { TouchableOpacity } from 'react-native';
 import Home from '../screens/Home';
 import Favoritos from '../screens/Favoritos';
 import Ordenes from '../screens/Ordenes';
 import Previews from '../screens/Previews';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Carrito from '../screens/Carrito';
 import Detail from '../screens/Detail';
-import { Colors } from '../components/colors';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -41,18 +41,19 @@ const BottomTabs = () => (
                 switch (route.name) {
                     case 'Home':
                         iconName = 'home-outline';
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        break;
                     case 'Favoritos':
                         iconName = 'heart-outline';
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        break;
                     case 'Ordenes':
                         iconName = 'receipt-outline';
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        break;
                     case 'Previews':
                         return <Feather name="video" size={size} color={color} />;
                     default:
                         return null;
                 }
+                return <Ionicons name={iconName} size={size} color={color} />;
             },
             tabBarStyle: {
                 height: 60,

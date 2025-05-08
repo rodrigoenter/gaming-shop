@@ -42,7 +42,6 @@ const ProductCard = ({ item }) => {
                     </CustomText>
                 </View>
 
-                {/* Botón de Favoritos */}
                 <Pressable style={styles.favoriteButton} onPress={handleToggleFavorito}>
                     <Ionicons
                         name={isFavorito ? 'heart' : 'heart-outline'}
