@@ -1,7 +1,8 @@
 import React from "react";
-import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../components/colors";
+import Logo from "../assets/logo-gaming-shop.svg";
 
 const Header = ({ navigation }) => {
     return (
@@ -9,7 +10,7 @@ const Header = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
                 <Ionicons name="menu" size={40} color={Colors.secondary} />
             </TouchableOpacity>
-            <Image source={require("../assets/logo-gaming-shop.png")} style={styles.logo} />
+            <Logo width={100} height={100} />
             <TouchableOpacity onPress={() => navigation.navigate("Carrito")}>
                 <Ionicons name="cart-outline" size={40} color={Colors.primary} />
             </TouchableOpacity>
@@ -28,11 +29,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderBottomColor: "#ccc",
         paddingBottom: 5,
-    },
-    logo: {
-        width: 100,
-        height: 100,
-        resizeMode: "contain",
     },
 });
 

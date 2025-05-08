@@ -1,0 +1,1 @@
+export const baseURL = "https://gaming-shop-1ec5c-default-rtdb.firebaseio.com/";

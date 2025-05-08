@@ -1,13 +1,25 @@
 import React from "react";
-import { SafeAreaView, View, Image, TouchableOpacity, FlatList, StyleSheet } from "react-native";
+import {
+    SafeAreaView,
+    View,
+    Image,
+    TouchableOpacity,
+    FlatList,
+    StyleSheet,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";
-import { Colors } from '../components/colors';
-import { useSelector, useDispatch } from 'react-redux';
-import { quitarDelCarrito, vaciarCarrito, aumentarCantidad, disminuirCantidad } from '../store/slices/carritoSlice';
+import { Colors } from "../components/colors";
+import { useSelector, useDispatch } from "react-redux";
+import {
+    quitarDelCarrito,
+    vaciarCarrito,
+    aumentarCantidad,
+    disminuirCantidad,
+} from "../store/slices/carritoSlice";
 
 const Carrito = ({ navigation }) => {
-    const carritoItems = useSelector(state => state.carrito.items);
+    const carritoItems = useSelector((state) => state.carrito.items);
     const dispatch = useDispatch();
 
     const handleQuitarDelCarrito = (id) => {
@@ -32,6 +44,10 @@ const Carrito = ({ navigation }) => {
             .toFixed(2);
     };
 
+    const handleIrAFinalizarOrden = () => {
+        navigation.navigate("FinalizarOrden");
+    };
+
     const renderItem = ({ item }) => {
         const precioConDescuento = (item.price * 0.9).toFixed(2);
         const totalItem = (precioConDescuento * item.quantity).toFixed(2);
@@ -43,25 +59,18 @@ const Carrito = ({ navigation }) => {
                     <CustomText weight="Bold" style={styles.cardTitle}>
                         {item.title}
                     </CustomText>
-
                     <CustomText style={styles.cardPrice}>
                         ${precioConDescuento} x {item.quantity} = ${totalItem}
                     </CustomText>
-
                     <View style={styles.quantityControls}>
                         <TouchableOpacity onPress={() => handleDisminuirCantidad(item.id)}>
                             <Ionicons name="remove-circle" size={24} color={Colors.primary} />
                         </TouchableOpacity>
-
-                        <CustomText style={styles.quantityText}>
-                            {item.quantity}
-                        </CustomText>
-
+                        <CustomText style={styles.quantityText}>{item.quantity}</CustomText>
                         <TouchableOpacity onPress={() => handleAumentarCantidad(item.id)}>
                             <Ionicons name="add-circle" size={24} color={Colors.primary} />
                         </TouchableOpacity>
                     </View>
-
                     <TouchableOpacity onPress={() => handleQuitarDelCarrito(item.id)}>
                         <CustomText style={styles.removeButton}>Quitar</CustomText>
                     </TouchableOpacity>
@@ -71,7 +80,7 @@ const Carrito = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={28} color={Colors.primary} />
@@ -97,13 +106,16 @@ const Carrito = ({ navigation }) => {
                     <FlatList
                         data={carritoItems}
                         renderItem={renderItem}
-                        keyExtractor={item => item.id.toString()}
+                        keyExtractor={(item) => item.id.toString()}
                         contentContainerStyle={{ paddingBottom: 100 }}
                     />
                     <View style={styles.footer}>
                         <CustomText style={styles.totalText}>
                             Total: ${calcularTotal()}
                         </CustomText>
+                        <TouchableOpacity onPress={handleIrAFinalizarOrden} style={styles.finalizarButton}>
+                            <CustomText style={styles.finalizarButtonText}>Finalizar Orden</CustomText>
+                        </TouchableOpacity>
                         <TouchableOpacity onPress={handleVaciarCarrito} style={styles.clearButton}>
                             <CustomText style={styles.clearButtonText}>Vaciar carrito</CustomText>
                         </TouchableOpacity>
@@ -115,6 +127,10 @@ const Carrito = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Colors.background,
+    },
     header: {
         flexDirection: "row",
         alignItems: "center",
@@ -229,6 +245,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     clearButtonText: {
+        color: Colors.textAccent,
+        fontSize: 16,
+    },
+    finalizarButton: {
+        backgroundColor: Colors.primary,
+        paddingVertical: 12,
+        borderRadius: 50,
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    finalizarButtonText: {
         color: Colors.textAccent,
         fontSize: 16,
     },

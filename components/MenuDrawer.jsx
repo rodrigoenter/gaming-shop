@@ -81,7 +81,9 @@ const MenuDrawer = ({ navigation }) => {
                         <View key={index}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    if (cat.subcategorias.length === 0) {
+                                    if (cat.nombre === "Acerca de nosotros") {
+                                        navigation.navigate("Acerca de nosotros");
+                                    } else if (cat.subcategorias.length === 0) {
                                         navigation.navigate("Inicio", {
                                             screen: "HomeTabs",
                                             params: { screen: "Home", params: { categoria: cat.nombre } }
