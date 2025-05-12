@@ -1,4 +1,3 @@
-import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomText from '../components/CustomText';
@@ -37,8 +36,6 @@ const Previews = ({ navigation }) => {
     );
 };
 
-export default Previews;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -50,3 +47,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default Previews;

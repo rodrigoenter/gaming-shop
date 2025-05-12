@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, TextInput, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../components/colors';

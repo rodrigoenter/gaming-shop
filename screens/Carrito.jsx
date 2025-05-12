@@ -1,22 +1,9 @@
-import React from "react";
-import {
-    SafeAreaView,
-    View,
-    Image,
-    TouchableOpacity,
-    FlatList,
-    StyleSheet,
-} from "react-native";
+import { SafeAreaView, View, Image, TouchableOpacity, FlatList, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";
 import { Colors } from "../components/colors";
 import { useSelector, useDispatch } from "react-redux";
-import {
-    quitarDelCarrito,
-    vaciarCarrito,
-    aumentarCantidad,
-    disminuirCantidad,
-} from "../store/slices/carritoSlice";
+import { quitarDelCarrito, vaciarCarrito, aumentarCantidad, disminuirCantidad } from "../store/slices/carritoSlice";
 
 const Carrito = ({ navigation }) => {
     const carritoItems = useSelector((state) => state.carrito.items);
@@ -134,12 +121,10 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         alignItems: "center",
-        paddingHorizontal: 20,
-        paddingTop: 50,
-        paddingBottom: 10,
+        paddingHorizontal: 15,
+        marginTop: 40,
+        height: 80,
         backgroundColor: Colors.background,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.border,
     },
     backButton: {
         flexDirection: "row",
@@ -148,8 +133,9 @@ const styles = StyleSheet.create({
     backText: {
         fontSize: 16,
         color: Colors.primary,
-        marginLeft: 8,
+        marginLeft: 10,
     },
+
     emptyContainer: {
         flex: 1,
         alignItems: "center",

@@ -3,10 +3,10 @@ import { Text as DefaultText } from "react-native";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
-import DrawerNavigator from "./navigation/DrawerNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Toast from "react-native-toast-message";
+import MainNavigator from "./navigation/MainNavigator";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,7 +48,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer onReady={onLayoutRootView}>
-        <DrawerNavigator />
+        <MainNavigator />
       </NavigationContainer>
       <Toast />
     </Provider>

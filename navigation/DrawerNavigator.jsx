@@ -1,4 +1,3 @@
-import React from 'react';
 import { Platform } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MenuDrawer from '../components/MenuDrawer';

@@ -1,4 +1,3 @@
-import React from "react";
 import { SafeAreaView, View, Image, ScrollView, TouchableOpacity, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";

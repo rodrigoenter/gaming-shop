@@ -39,12 +39,5 @@ const carritoSlice = createSlice({
     },
 });
 
-export const {
-    agregarAlCarrito,
-    quitarDelCarrito,
-    vaciarCarrito,
-    aumentarCantidad,
-    disminuirCantidad,
-} = carritoSlice.actions;
-
+export const { agregarAlCarrito, quitarDelCarrito, vaciarCarrito, aumentarCantidad, disminuirCantidad } = carritoSlice.actions;
 export default carritoSlice.reducer;

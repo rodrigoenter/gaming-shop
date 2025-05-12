@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import { useGetAllProductsQuery } from '../services/shopServices';
 import ProductCard from '../components/Card';

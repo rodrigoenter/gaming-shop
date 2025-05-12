@@ -1,4 +1,3 @@
-import React from "react";
 import { Text } from "react-native";
 
 const CustomText = ({ children, style, weight = "Regular", ...props }) => {

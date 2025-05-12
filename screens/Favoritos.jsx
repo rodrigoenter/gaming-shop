@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, View, Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomText from '../components/CustomText';
@@ -7,10 +7,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { quitarDeFavoritos } from '../store/slices/favoritosSlice';
 import { agregarAlCarrito } from '../store/slices/carritoSlice';
 import Toast from 'react-native-toast-message';
+import { subirFavoritos } from '../services/favoritosService';
 
 const Favoritos = ({ navigation }) => {
-    const favoritos = useSelector(state => state.favoritos.items);
     const dispatch = useDispatch();
+    const userId = useSelector((state) => state.auth.userId);
+    const favoritos = useSelector((state) => state.favoritos.items);
+
+    useEffect(() => {
+        if (userId) {
+            subirFavoritos(userId, favoritos);
+        }
+    }, [favoritos, userId]);
 
     const handleRemove = (id) => {
         dispatch(quitarDeFavoritos(id));
@@ -30,7 +38,9 @@ const Favoritos = ({ navigation }) => {
         <View style={styles.card}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.cardContent}>
-                <CustomText weight="Bold" style={styles.title}>{item.title}</CustomText>
+                <CustomText weight="Bold" style={styles.title}>
+                    {item.title}
+                </CustomText>
                 <CustomText style={styles.price}>${(item.price * 0.9).toFixed(2)}</CustomText>
 
                 <TouchableOpacity onPress={() => handleRemove(item.id)} style={styles.favoriteButton}>
@@ -58,12 +68,14 @@ const Favoritos = ({ navigation }) => {
             {favoritos.length === 0 ? (
                 <View style={styles.emptyContainer}>
                     <Ionicons name="heart-outline" size={120} color={Colors.border} />
-                    <CustomText style={styles.emptyText}>Todavía no agregaste favoritos 🥲</CustomText>
+                    <CustomText style={styles.emptyText}>
+                        Todavía no agregaste favoritos 🥲
+                    </CustomText>
                 </View>
             ) : (
                 <FlatList
                     data={favoritos}
-                    keyExtractor={item => item.id.toString()}
+                    keyExtractor={(item) => item.id.toString()}
                     renderItem={renderItem}
                     contentContainerStyle={{ padding: 15 }}
                 />
@@ -72,19 +84,17 @@ const Favoritos = ({ navigation }) => {
     );
 };
 
-export default Favoritos;
-
 const styles = StyleSheet.create({
     header: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingHorizontal: 15,
         height: 80,
         marginTop: 40,
     },
     backButton: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     backText: {
         fontSize: 16,
@@ -92,14 +102,14 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     emptyContainer: {
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
         marginTop: 100,
     },
     emptyText: {
         fontSize: 16,
         color: Colors.textSecondary,
-        textAlign: "center",
+        textAlign: 'center',
         marginTop: 30,
     },
     card: {
@@ -152,3 +162,5 @@ const styles = StyleSheet.create({
         color: Colors.primary,
     },
 });
+
+export default Favoritos;
