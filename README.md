@@ -1,1 +1,1 @@
-# gaming-shop
+Gaming shop.
