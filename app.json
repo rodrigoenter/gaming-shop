@@ -14,12 +14,14 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "La app necesita acceso a tu cámara para subir tu foto de perfil"
+        "NSCameraUsageDescription": "La app necesita acceso a tu cámara para subir tu foto de perfil",
+        "NSLocationWhenInUseUsageDescription": "La app necesita tu ubicación para establecer tu dirección de entrega"
       }
     },
     "android": {
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "ACCESS_FINE_LOCATION"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -30,7 +32,8 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sqlite"
     ],
     "newArchEnabled": true
   }

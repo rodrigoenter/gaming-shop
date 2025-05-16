@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Text as DefaultText } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { store } from "./store/store";
+import { restoreSession } from "./store/slices/authSlice";
+import { NavigationContainer } from "@react-navigation/native";
+import MainNavigator from "./navigation/MainNavigator";
+import Toast from "react-native-toast-message";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { NavigationContainer } from "@react-navigation/native";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
-import Toast from "react-native-toast-message";
-import MainNavigator from "./navigation/MainNavigator";
 
 SplashScreen.preventAutoHideAsync();
-
-DefaultText.defaultProps = DefaultText.defaultProps || {};
-DefaultText.defaultProps.style = [{ fontFamily: "Rubik-Regular" }];
 
 const loadFonts = () =>
   Font.loadAsync({
@@ -20,37 +17,45 @@ const loadFonts = () =>
     "Rubik-Bold": require("./assets/fonts/Rubik-Bold.ttf"),
   });
 
-export default function App() {
+function Root() {
+  const dispatch = useDispatch();
+  const loadingSession = useSelector((state) => state.auth.loadingSession);
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
     async function prepare() {
       try {
         await loadFonts();
+        await dispatch(restoreSession());
       } catch (e) {
         console.warn(e);
       } finally {
         setAppIsReady(true);
       }
     }
-
     prepare();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
+    if (appIsReady && !loadingSession) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady]);
+  }, [appIsReady, loadingSession]);
 
-  if (!appIsReady) return null;
+  if (!appIsReady || loadingSession) return null;
 
   return (
-    <Provider store={store}>
-      <NavigationContainer onReady={onLayoutRootView}>
-        <MainNavigator />
-      </NavigationContainer>
+    <NavigationContainer onReady={onLayoutRootView}>
+      <MainNavigator />
       <Toast />
+    </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Root />
     </Provider>
   );
 }

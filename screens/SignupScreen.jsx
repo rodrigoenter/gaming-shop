@@ -1,15 +1,16 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, SafeAreaView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, SafeAreaView, Image } from "react-native";
 import InputForm from "../components/InputForm";
 import { signUp } from "../services/authService";
 import { signupSchema } from "../validations/signupSchema";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/slices/authSlice";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";
 import { Colors } from "../components/colors";
+import { loginAndPersist } from "../store/slices/authSlice";
+import logo from "../assets/logo-gaming-shop.png";
 
 const SignupScreen = () => {
     const dispatch = useDispatch();
@@ -25,10 +26,13 @@ const SignupScreen = () => {
 
     const handleSignup = async () => {
         try {
-            signupSchema.validateSync({ email, password, confirmPassword }, { abortEarly: false });
+            signupSchema.validateSync(
+                { email, password, confirmPassword },
+                { abortEarly: false }
+            );
 
             const res = await signUp({ email, password });
-            dispatch(setUser({ userId: res.localId, token: res.idToken }));
+            dispatch(loginAndPersist(res.localId, res.idToken));
             Toast.show({ type: "success", text1: "¡Registrado exitosamente!" });
         } catch (err) {
             if (err.inner) {
@@ -62,6 +66,13 @@ const SignupScreen = () => {
             >
                 <ScrollView contentContainerStyle={styles.scroll}>
                     <View style={styles.form}>
+                        <View style={styles.logoContainer}>
+                            <Image source={logo} style={styles.logo} resizeMode="contain" />
+                            <CustomText style={styles.welcomeText}>
+                                Por favor, crea tu usuari@ para comenzar...
+                            </CustomText>
+                        </View>
+
                         <InputForm
                             label="Email"
                             value={email}
@@ -98,7 +109,9 @@ const SignupScreen = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                            <CustomText style={styles.linkText}>¿Ya tenés cuenta? Iniciá sesión</CustomText>
+                            <CustomText style={styles.linkText}>
+                                ¿Ya tenés cuenta? Iniciá sesión
+                            </CustomText>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -140,6 +153,22 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 1,
         borderColor: Colors.border,
+    },
+    logoContainer: {
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        marginBottom: 10,
+    },
+    welcomeText: {
+        fontSize: 16,
+        color: Colors.secondary,
+        textAlign: "center",
+        marginTop: 20,
+        marginBottom: 20,
     },
     submitButton: {
         backgroundColor: Colors.primary,

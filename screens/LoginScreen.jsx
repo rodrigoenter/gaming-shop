@@ -1,14 +1,15 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, Image } from "react-native";
 import InputForm from "../components/InputForm";
 import { login } from "../services/authService";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/slices/authSlice";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import CustomText from "../components/CustomText";
 import { Colors } from "../components/colors";
+import { loginAndPersist } from "../store/slices/authSlice";
 import { cargarFavoritos } from "../store/slices/favoritosSlice";
+import logo from "../assets/logo-gaming-shop.png";
 
 const LoginScreen = () => {
     const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const LoginScreen = () => {
 
         try {
             const res = await login({ email, password });
-            dispatch(setUser({ userId: res.localId, token: res.idToken }));
+            dispatch(loginAndPersist(res.localId, res.idToken));
             dispatch(cargarFavoritos(res.localId));
             Toast.show({ type: "success", text1: "¡Sesión iniciada!" });
         } catch (err) {
@@ -46,9 +47,19 @@ const LoginScreen = () => {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+        >
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.form}>
+                    <View style={styles.logoContainer}>
+                        <Image source={logo} style={styles.logo} resizeMode="contain" />
+                        <CustomText style={styles.welcomeText}>
+                            ¡Bienvenid@s a Gaming Shop!
+                        </CustomText>
+                    </View>
+
                     <InputForm
                         label="Email"
                         value={email}
@@ -74,7 +85,9 @@ const LoginScreen = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-                        <CustomText style={styles.linkText}>¿No tenés cuenta? Registrate</CustomText>
+                        <CustomText style={styles.linkText}>
+                            ¿No tenés cuenta? Registrate
+                        </CustomText>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -98,6 +111,22 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         borderWidth: 1,
         borderColor: Colors.border,
+    },
+    logoContainer: {
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        marginBottom: 10,
+    },
+    welcomeText: {
+        fontSize: 16,
+        color: Colors.primary,
+        textAlign: "center",
+        marginTop: 20,
+        marginBottom: 20,
     },
     submitButton: {
         backgroundColor: Colors.primary,

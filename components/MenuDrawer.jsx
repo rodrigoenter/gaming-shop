@@ -7,8 +7,11 @@ import CustomText from "./CustomText";
 import SearchInput from "./SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage } from "../store/slices/profileSlice";
+import { setLocation } from "../store/slices/locationSlice";
 import { subirImagenPerfil, obtenerImagenPerfil } from "../services/profileService";
+import { obtenerDireccionUsuario } from "../services/locationService";
 import { Colors } from "../components/colors";
+import { logoutAndClear } from "../store/slices/authSlice";
 
 import PS5Icon from "../assets/iconos_consolas/ps5.svg";
 import PS4Icon from "../assets/iconos_consolas/ps4.svg";
@@ -27,13 +30,20 @@ const categorias = [
 
 const getSubcategoriaIcon = (nombre) => {
     switch (nombre) {
-        case "PS5": return <PS5Icon width={28} height={18} style={styles.icon} />;
-        case "PS4": return <PS4Icon width={28} height={18} style={styles.icon} />;
-        case "Series X": return <SeriesXIcon width={18} height={18} style={styles.icon} />;
-        case "Series S": return <SeriesSIcon width={18} height={18} style={styles.icon} />;
-        case "Switch 2": return <Switch2Icon width={28} height={28} style={styles.icon} />;
-        case "Switch 1": return <Switch1Icon width={18} height={18} style={styles.icon} />;
-        default: return null;
+        case "PS5":
+            return <PS5Icon width={28} height={18} style={styles.icon} />;
+        case "PS4":
+            return <PS4Icon width={28} height={18} style={styles.icon} />;
+        case "Series X":
+            return <SeriesXIcon width={18} height={18} style={styles.icon} />;
+        case "Series S":
+            return <SeriesSIcon width={18} height={18} style={styles.icon} />;
+        case "Switch 2":
+            return <Switch2Icon width={28} height={28} style={styles.icon} />;
+        case "Switch 1":
+            return <Switch1Icon width={18} height={18} style={styles.icon} />;
+        default:
+            return null;
     }
 };
 
@@ -41,6 +51,7 @@ const MenuDrawer = ({ navigation }) => {
     const dispatch = useDispatch();
     const userId = useSelector((state) => state.auth.userId);
     const image = useSelector((state) => state.profile.image);
+    const direccion = useSelector((state) => state.location.address);
 
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -48,33 +59,40 @@ const MenuDrawer = ({ navigation }) => {
     const [filteredCategorias, setFilteredCategorias] = useState(categorias);
 
     useEffect(() => {
+        const fetchData = async () => {
+            if (userId) {
+                try {
+                    const url = await obtenerImagenPerfil(userId);
+                    if (url) dispatch(setImage(url));
+
+                    const dir = await obtenerDireccionUsuario(userId);
+                    if (dir) dispatch(setLocation(dir));
+                } catch (error) {
+                }
+            }
+        };
+        fetchData();
+    }, [userId]);
+
+    useEffect(() => {
         const lowerSearch = searchText.toLowerCase();
         const filtradas = categorias
             .map((cat) => {
                 const matchCategoria = cat.nombre.toLowerCase().includes(lowerSearch);
-                const matchSub = cat.subcategorias.filter((sub) => sub.toLowerCase().includes(lowerSearch));
+                const matchSub = cat.subcategorias.filter((sub) =>
+                    sub.toLowerCase().includes(lowerSearch)
+                );
                 if (matchCategoria || matchSub.length > 0) {
-                    return { ...cat, subcategorias: matchCategoria ? cat.subcategorias : matchSub };
+                    return {
+                        ...cat,
+                        subcategorias: matchCategoria ? cat.subcategorias : matchSub,
+                    };
                 }
                 return null;
             })
             .filter(Boolean);
         setFilteredCategorias(filtradas);
     }, [searchText]);
-
-    useEffect(() => {
-        const fetchImage = async () => {
-            try {
-                if (userId) {
-                    const url = await obtenerImagenPerfil(userId);
-                    if (url) dispatch(setImage(url));
-                }
-            } catch (error) {
-                console.error("Error cargando imagen de perfil:", error.message);
-            }
-        };
-        fetchImage();
-    }, [userId]);
 
     const handleSelectImage = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -130,17 +148,43 @@ const MenuDrawer = ({ navigation }) => {
         setExpanded((prev) => ({ ...prev, [nombre]: !prev[nombre] }));
     };
 
+    const handleLogout = () => {
+        Alert.alert(
+            "Cerrar sesión",
+            "¿Estás seguro que quieres cerrar sesión?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Cerrar sesión",
+                    style: "destructive",
+                    onPress: () => {
+                        dispatch(logoutAndClear());
+                        navigation.closeDrawer();
+                    },
+                },
+            ]
+        );
+    };
+
     return (
         <DrawerContentScrollView contentContainerStyle={styles.container}>
             <View>
                 <View style={styles.profile}>
                     <View style={styles.avatarWrapper}>
-                        <TouchableOpacity onPress={handleSelectImage} style={styles.avatarContainer}>
+                        <TouchableOpacity
+                            onPress={handleSelectImage}
+                            style={styles.avatarContainer}
+                            activeOpacity={0.7}
+                        >
                             {loading ? (
                                 <ActivityIndicator size="small" color={Colors.primary} />
                             ) : (
                                 <Image
-                                    source={image ? { uri: image } : require("../assets/foto-usuario.png")}
+                                    source={
+                                        image
+                                            ? { uri: image }
+                                            : require("../assets/foto-usuario.png")
+                                    }
                                     style={styles.avatar}
                                 />
                             )}
@@ -153,54 +197,102 @@ const MenuDrawer = ({ navigation }) => {
                         />
                     </View>
                     <CustomText style={styles.profileText}>Mi perfil</CustomText>
+
+                    {direccion && (
+                        <View style={styles.locationRow}>
+                            <Ionicons name="location" size={16} color={Colors.secondary} />
+                            <CustomText style={styles.locationText}>{direccion}</CustomText>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigation.navigate("Inicio", { screen: "DireccionEntrega" })
+                                }
+                                style={{ marginLeft: 10 }}
+                            >
+                                <Ionicons name="pencil" size={18} color={Colors.primary} />
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
 
                 <SearchInput value={searchText} onChangeText={setSearchText} />
 
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate("Inicio");
-                    navigation.closeDrawer();
-                }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate("Inicio");
+                        navigation.closeDrawer();
+                    }}
+                    activeOpacity={0.7}
+                >
                     <View style={styles.iconRow}>
-                        <Ionicons name="home-outline" size={18} color={Colors.primary} style={styles.icon} />
+                        <Ionicons
+                            name="home-outline"
+                            size={18}
+                            color={Colors.primary}
+                            style={styles.icon}
+                        />
                         <CustomText style={styles.item}>Inicio</CustomText>
                     </View>
                 </TouchableOpacity>
 
-                {filteredCategorias.length > 0 ? (
-                    filteredCategorias.map((cat, index) => (
-                        <View key={index}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    if (cat.nombre === "Acerca de nosotros") {
-                                        navigation.navigate("Acerca de nosotros");
-                                    } else if (cat.nombre === "Dirección de entrega") {
-                                        navigation.navigate("Dirección de entrega");
-                                    } else if (cat.subcategorias.length === 0) {
-                                        navigation.navigate("Inicio", {
-                                            screen: "HomeTabs",
-                                            params: { screen: "Home", params: { categoria: cat.nombre } }
-                                        });
-                                    } else {
-                                        toggleExpand(cat.nombre);
-                                    }
-                                }}
-                                style={styles.iconRow}
-                            >
-                                <Ionicons name={cat.icono} size={20} color={Colors.primary} style={styles.icon} />
-                                <CustomText style={styles.item}>{cat.nombre}</CustomText>
-                            </TouchableOpacity>
-                            {expanded[cat.nombre] && cat.subcategorias.map((sub, i) => (
+                {filteredCategorias.length === 0 && (
+                    <View style={styles.noResultsContainer}>
+                        <CustomText style={styles.noResultsText}>
+                            No se encontraron resultados
+                        </CustomText>
+                    </View>
+                )}
+
+                {filteredCategorias.map((cat, index) => (
+                    <View key={index}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                if (cat.nombre === "Acerca de nosotros") {
+                                    navigation.navigate("Acerca de nosotros");
+                                    navigation.closeDrawer();
+                                } else if (cat.nombre === "Dirección de entrega") {
+                                    navigation.navigate("Inicio", { screen: "DireccionEntrega" });
+                                    navigation.closeDrawer();
+                                } else if (cat.subcategorias.length === 0) {
+                                    navigation.navigate("Inicio", {
+                                        screen: "HomeTabs",
+                                        params: { screen: "Home", params: { categoria: cat.nombre } },
+                                    });
+                                    navigation.closeDrawer();
+                                } else {
+                                    toggleExpand(cat.nombre);
+                                }
+                            }}
+                            style={styles.iconRow}
+                            activeOpacity={0.7}
+                        >
+                            <Ionicons
+                                name={cat.icono}
+                                size={20}
+                                color={Colors.primary}
+                                style={styles.icon}
+                            />
+                            <CustomText style={styles.item}>{cat.nombre}</CustomText>
+                            <Ionicons
+                                name={expanded[cat.nombre] ? "chevron-up" : "chevron-down"}
+                                size={16}
+                                color={Colors.primary}
+                                style={{ marginLeft: "auto", marginRight: 20 }}
+                            />
+                        </TouchableOpacity>
+
+                        {expanded[cat.nombre] &&
+                            cat.subcategorias.map((sub, i) => (
                                 <TouchableOpacity
                                     key={i}
                                     style={styles.subItemContainer}
                                     onPress={() => {
                                         navigation.navigate("Inicio", {
                                             screen: "HomeTabs",
-                                            params: { screen: "Home", params: { categoria: sub } }
+                                            params: { screen: "Home", params: { categoria: sub } },
                                         });
                                         navigation.closeDrawer();
                                     }}
+                                    activeOpacity={0.7}
                                 >
                                     <View style={styles.iconRow}>
                                         {getSubcategoriaIcon(sub)}
@@ -208,17 +300,26 @@ const MenuDrawer = ({ navigation }) => {
                                     </View>
                                 </TouchableOpacity>
                             ))}
-                        </View>
-                    ))
-                ) : (
-                    <View style={styles.noResultsContainer}>
-                        <CustomText style={styles.noResultsText}>Tu búsqueda no encontró resultados 🥲</CustomText>
                     </View>
-                )}
+                ))}
             </View>
 
+            {userId && (
+                <TouchableOpacity
+                    onPress={handleLogout}
+                    style={styles.logoutButton}
+                    activeOpacity={0.7}
+                >
+                    <CustomText style={styles.logoutText}>Cerrar sesión</CustomText>
+                </TouchableOpacity>
+            )}
+
             <View style={styles.bottomContainer}>
-                <Image source={require("../assets/logo-drawer.png")} style={styles.logo} />
+                <Image
+                    source={require("../assets/logo-drawer.png")}
+                    style={styles.logo}
+                    resizeMode="contain"
+                />
                 <CustomText style={styles.copy}>© 2025 GAMING SHOP</CustomText>
             </View>
         </DrawerContentScrollView>
@@ -235,7 +336,7 @@ const styles = StyleSheet.create({
     profile: {
         alignItems: "center",
         justifyContent: "center",
-        height: 170,
+        height: 200,
         marginBottom: 20,
     },
     avatarWrapper: {
@@ -267,15 +368,20 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 5,
         zIndex: 2,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3,
-        elevation: 5,
     },
     profileText: {
         fontSize: 16,
         color: Colors.secondary,
+    },
+    locationRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginTop: 8,
+    },
+    locationText: {
+        fontSize: 12,
+        color: Colors.textSecondary,
+        marginLeft: 5,
     },
     iconRow: {
         flexDirection: "row",
@@ -314,12 +420,23 @@ const styles = StyleSheet.create({
     logo: {
         width: 150,
         height: 40,
-        resizeMode: "contain",
     },
     copy: {
         fontSize: 10,
         color: Colors.textSecondary,
         marginTop: 10,
+    },
+    logoutButton: {
+        paddingVertical: 5,
+        marginHorizontal: 80,
+        borderRadius: 50,
+        backgroundColor: Colors.primary,
+        alignItems: "center",
+        marginTop: 80,
+    },
+    logoutText: {
+        color: Colors.textAccent,
+        fontSize: 14,
     },
 });
 

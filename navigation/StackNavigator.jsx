@@ -6,6 +6,7 @@ import AllProducts from "../screens/AllProducts";
 import AboutUs from "../screens/AboutUs";
 import Ordenes from "../screens/Ordenes";
 import FinalizarOrden from "../screens/FinalizarOrden";
+import DireccionEntrega from "../screens/DireccionEntrega";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const StackNavigator = () => {
             <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen name="Ordenes" component={Ordenes} />
             <Stack.Screen name="FinalizarOrden" component={FinalizarOrden} />
+            <Stack.Screen name="DireccionEntrega" component={DireccionEntrega} />
         </Stack.Navigator>
     );
 };
