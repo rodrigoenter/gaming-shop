@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { View, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView, SafeAreaView, Image } from "react-native";
 import InputForm from "../components/InputForm";
 import { signUp } from "../services/authService";

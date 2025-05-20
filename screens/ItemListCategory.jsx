@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import ProductCard from '../components/Card';
 import SearchInput from '../components/SearchInput';

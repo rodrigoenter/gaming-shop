@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { subirFavoritos, obtenerFavoritos } from '../../services/favoritosService';
+import { obtenerFavoritos } from '../../services/favoritosService';
 
 export const cargarFavoritos = createAsyncThunk(
     'favoritos/cargarFavoritos',

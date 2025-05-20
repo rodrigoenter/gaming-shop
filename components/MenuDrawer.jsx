@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Image, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import CustomText from "./CustomText";
+import { FlatList } from "react-native";
 import SearchInput from "./SearchInput";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage } from "../store/slices/profileSlice";
@@ -67,8 +68,7 @@ const MenuDrawer = ({ navigation }) => {
 
                     const dir = await obtenerDireccionUsuario(userId);
                     if (dir) dispatch(setLocation(dir));
-                } catch (error) {
-                }
+                } catch (error) { }
             }
         };
         fetchData();
@@ -166,6 +166,73 @@ const MenuDrawer = ({ navigation }) => {
         );
     };
 
+    const renderCategoria = ({ item }) => {
+        const isExpanded = expanded[item.nombre];
+
+        return (
+            <View>
+                <TouchableOpacity
+                    onPress={() => {
+                        if (item.nombre === "Acerca de nosotros") {
+                            navigation.navigate("Acerca de nosotros");
+                            navigation.closeDrawer();
+                        } else if (item.nombre === "Dirección de entrega") {
+                            navigation.navigate("Inicio", { screen: "DireccionEntrega" });
+                            navigation.closeDrawer();
+                        } else if (item.subcategorias.length === 0) {
+                            navigation.navigate("Inicio", {
+                                screen: "HomeTabs",
+                                params: { screen: "Home", params: { categoria: item.nombre } },
+                            });
+                            navigation.closeDrawer();
+                        } else {
+                            toggleExpand(item.nombre);
+                        }
+                    }}
+                    style={styles.iconRow}
+                    activeOpacity={0.7}
+                >
+                    <Ionicons
+                        name={item.icono}
+                        size={20}
+                        color={Colors.primary}
+                        style={styles.icon}
+                    />
+                    <CustomText style={styles.item}>{item.nombre}</CustomText>
+                    {item.subcategorias.length > 0 && (
+                        <Ionicons
+                            name={isExpanded ? "chevron-up" : "chevron-down"}
+                            size={16}
+                            color={Colors.primary}
+                            style={{ marginLeft: "auto", marginRight: 20 }}
+                        />
+                    )}
+                </TouchableOpacity>
+
+                {isExpanded &&
+                    item.subcategorias.map((sub, i) => (
+                        <TouchableOpacity
+                            key={`${item.nombre}-${sub}`}
+                            style={styles.subItemContainer}
+                            onPress={() => {
+                                navigation.navigate("Inicio", {
+                                    screen: "HomeTabs",
+                                    params: { screen: "Home", params: { categoria: sub } },
+                                });
+                                navigation.closeDrawer();
+                            }}
+                            activeOpacity={0.7}
+                        >
+                            <View style={styles.iconRow}>
+                                {getSubcategoriaIcon(sub)}
+                                <CustomText style={styles.subItem}>{sub}</CustomText>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+            </View>
+        );
+    };
+
     return (
         <DrawerContentScrollView contentContainerStyle={styles.container}>
             <View>
@@ -234,74 +301,20 @@ const MenuDrawer = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
 
-                {filteredCategorias.length === 0 && (
+                {filteredCategorias.length === 0 ? (
                     <View style={styles.noResultsContainer}>
                         <CustomText style={styles.noResultsText}>
                             No se encontraron resultados
                         </CustomText>
                     </View>
+                ) : (
+                    <FlatList
+                        data={filteredCategorias}
+                        keyExtractor={(item) => item.nombre}
+                        renderItem={renderCategoria}
+                        scrollEnabled={false}
+                    />
                 )}
-
-                {filteredCategorias.map((cat, index) => (
-                    <View key={index}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                if (cat.nombre === "Acerca de nosotros") {
-                                    navigation.navigate("Acerca de nosotros");
-                                    navigation.closeDrawer();
-                                } else if (cat.nombre === "Dirección de entrega") {
-                                    navigation.navigate("Inicio", { screen: "DireccionEntrega" });
-                                    navigation.closeDrawer();
-                                } else if (cat.subcategorias.length === 0) {
-                                    navigation.navigate("Inicio", {
-                                        screen: "HomeTabs",
-                                        params: { screen: "Home", params: { categoria: cat.nombre } },
-                                    });
-                                    navigation.closeDrawer();
-                                } else {
-                                    toggleExpand(cat.nombre);
-                                }
-                            }}
-                            style={styles.iconRow}
-                            activeOpacity={0.7}
-                        >
-                            <Ionicons
-                                name={cat.icono}
-                                size={20}
-                                color={Colors.primary}
-                                style={styles.icon}
-                            />
-                            <CustomText style={styles.item}>{cat.nombre}</CustomText>
-                            <Ionicons
-                                name={expanded[cat.nombre] ? "chevron-up" : "chevron-down"}
-                                size={16}
-                                color={Colors.primary}
-                                style={{ marginLeft: "auto", marginRight: 20 }}
-                            />
-                        </TouchableOpacity>
-
-                        {expanded[cat.nombre] &&
-                            cat.subcategorias.map((sub, i) => (
-                                <TouchableOpacity
-                                    key={i}
-                                    style={styles.subItemContainer}
-                                    onPress={() => {
-                                        navigation.navigate("Inicio", {
-                                            screen: "HomeTabs",
-                                            params: { screen: "Home", params: { categoria: sub } },
-                                        });
-                                        navigation.closeDrawer();
-                                    }}
-                                    activeOpacity={0.7}
-                                >
-                                    <View style={styles.iconRow}>
-                                        {getSubcategoriaIcon(sub)}
-                                        <CustomText style={styles.subItem}>{sub}</CustomText>
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                    </View>
-                ))}
             </View>
 
             {userId && (

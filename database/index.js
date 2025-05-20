@@ -15,7 +15,6 @@ export const initDB = async () => {
             );
         `);
     } catch (error) {
-        console.error("Error inicializando DB:", error);
         throw error;
     }
 };
@@ -28,7 +27,6 @@ export const insertSession = async (userId, token) => {
             [userId, token]
         );
     } catch (error) {
-        console.error("Error guardando sesión:", error);
         throw error;
     }
 };
@@ -41,7 +39,6 @@ export const fetchSession = async () => {
         );
         return result || null;
     } catch (error) {
-        console.error("Error obteniendo sesión:", error);
         return null;
     }
 };
@@ -51,7 +48,6 @@ export const deleteSession = async () => {
         const db = await openDB();
         await db.execAsync("DELETE FROM sessions");
     } catch (error) {
-        console.error("Error eliminando sesión:", error);
         throw error;
     }
 };

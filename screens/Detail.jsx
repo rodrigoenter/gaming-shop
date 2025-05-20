@@ -12,7 +12,6 @@ const Detail = ({ route, navigation }) => {
     const dispatch = useDispatch();
 
     const favoritos = useSelector(state => state.favoritos.items);
-
     const isFavorito = favoritos.some(fav => fav.id === product.id);
 
     const precioOriginal = parseFloat(product.price);
@@ -20,7 +19,6 @@ const Detail = ({ route, navigation }) => {
 
     const handleAgregarAlCarrito = () => {
         dispatch(agregarAlCarrito(product));
-        console.log("Producto agregado al carrito:", product.title);
 
         Toast.show({
             type: 'success',
@@ -54,7 +52,7 @@ const Detail = ({ route, navigation }) => {
                         Volver atrás
                     </CustomText>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => console.log("Compartir")}>
+                <TouchableOpacity>
                     <Ionicons name="share-social" size={30} color={Colors.primary} />
                 </TouchableOpacity>
             </View>
