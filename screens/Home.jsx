@@ -1,17 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { View, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Header from "../components/Header";
 import Card from "../components/Card";
 import BannerCarousel from "../components/BannerCarousel";
 import { Colors } from "../components/colors";
 import CustomText from "../components/CustomText";
-import {
-  useGetCategoriesQuery,
-  useGetProductsByCategoryQuery,
-  useGetAllProductsQuery,
-} from "../services/shopServices";
+import { useGetCategoriesQuery, useGetProductsByCategoryQuery, useGetAllProductsQuery } from "../services/shopServices";
 
 const Home = ({ navigation, route }) => {
   const categoriaParam = route.params?.categoria;
@@ -20,18 +15,8 @@ const Home = ({ navigation, route }) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   const { data: categories, isLoading: loadingCategories, error: errorCategories } = useGetCategoriesQuery();
-
-  const {
-    data: productosFiltrados,
-    isLoading: loadingFiltrados,
-    error: errorFiltrados,
-  } = useGetProductsByCategoryQuery(categoriaParam, { skip: !categoriaParam });
-
-  const {
-    data: todosLosProductos,
-    isLoading: loadingTodos,
-    error: errorTodos,
-  } = useGetAllProductsQuery(undefined, { skip: !!categoriaParam });
+  const { data: productosFiltrados, isLoading: loadingFiltrados, error: errorFiltrados } = useGetProductsByCategoryQuery(categoriaParam, { skip: !categoriaParam });
+  const { data: todosLosProductos, isLoading: loadingTodos, error: errorTodos } = useGetAllProductsQuery(undefined, { skip: !!categoriaParam });
 
   const productosData = categoriaParam ? productosFiltrados : todosLosProductos;
   const loadingProducts = categoriaParam ? loadingFiltrados : loadingTodos;
@@ -39,17 +24,13 @@ const Home = ({ navigation, route }) => {
 
   useEffect(() => {
     if (!productosData) return;
-
-    const productos = Object.values(productosData);
-    const agrupados = productos.reduce((acc, producto) => {
+    const agrupados = productosData.reduce((acc, producto) => {
       const categoria = producto.category;
-      if (!categoria || categoria === 'undefined' || Number.isNaN(categoria)) return acc;
-
+      if (!categoria || categoria === "undefined" || Number.isNaN(categoria)) return acc;
       if (!acc[categoria]) acc[categoria] = [];
       acc[categoria].push(producto);
       return acc;
     }, {});
-
     setProductosPorConsola(agrupados);
   }, [productosData]);
 
@@ -59,22 +40,16 @@ const Home = ({ navigation, route }) => {
   };
 
   const renderSeccionCarrusel = (consolaId, productos) => {
-    const nombreConsola = obtenerNombreConsola(consolaId);
     return (
       <View key={consolaId} style={styles.seccion}>
-        <CustomText style={styles.tituloSeccion}>{nombreConsola.toUpperCase()}</CustomText>
+        <CustomText style={styles.tituloSeccion}>{obtenerNombreConsola(consolaId).toUpperCase()}</CustomText>
         <FlatList
           data={productos}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <View style={styles.cardWrapper}>
-              <Card
-                item={item}
-                onPress={() => navigation.navigate("Detail", { product: item })}
-              />
-            </View>
+            <Card item={item} onPress={() => navigation.navigate("Detail", { product: item })} />
           )}
         />
       </View>
@@ -83,11 +58,6 @@ const Home = ({ navigation, route }) => {
 
   const handleScrollToTop = () => {
     flatListRef.current?.scrollToOffset({ animated: true, offset: 0 });
-  };
-
-  const handleScroll = (event) => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    setShowScrollButton(currentOffset > 300);
   };
 
   if (loadingCategories || loadingProducts) {
@@ -107,28 +77,28 @@ const Home = ({ navigation, route }) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+    <View style={{ flex: 1, backgroundColor: Colors.background }}>
       <Header navigation={navigation} />
       <FlatList
         ref={flatListRef}
         ListHeaderComponent={<BannerCarousel />}
         data={Object.entries(productosPorConsola)}
         keyExtractor={([consolaId]) => consolaId}
-        renderItem={({ item: [consolaId, productos] }) =>
-          renderSeccionCarrusel(consolaId, productos)
-        }
+        renderItem={({ item: [consolaId, productos] }) => renderSeccionCarrusel(consolaId, productos)}
         contentContainerStyle={{ paddingBottom: 80 }}
         showsVerticalScrollIndicator={false}
-        onScroll={handleScroll}
+        onScroll={(event) => {
+          const offsetY = event.nativeEvent.contentOffset.y;
+          setShowScrollButton(offsetY > 300);
+        }}
         scrollEventThrottle={16}
       />
-      <TouchableOpacity
-        style={[styles.floatingButton, { display: showScrollButton ? "flex" : "none" }]}
-        onPress={handleScrollToTop}
-      >
-        <Ionicons name="rocket" size={30} color={Colors.textAccent} />
-      </TouchableOpacity>
-    </SafeAreaView>
+      {showScrollButton && (
+        <TouchableOpacity style={styles.floatingButton} onPress={handleScrollToTop}>
+          <Ionicons name="rocket" size={30} color={Colors.textAccent} />
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 
@@ -142,10 +112,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     marginBottom: 10,
     fontWeight: "bold",
-  },
-  cardWrapper: {
-    paddingLeft: 16,
-    width: 260,
   },
   floatingButton: {
     position: "absolute",

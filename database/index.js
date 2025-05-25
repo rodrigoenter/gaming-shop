@@ -1,7 +1,12 @@
 import { openDatabaseAsync } from 'expo-sqlite';
 
+let dbInstance = null;
+
 const openDB = async () => {
-    return await openDatabaseAsync("app.db");
+    if (!dbInstance) {
+        dbInstance = await openDatabaseAsync("app.db");
+    }
+    return dbInstance;
 };
 
 export const initDB = async () => {
@@ -15,6 +20,7 @@ export const initDB = async () => {
             );
         `);
     } catch (error) {
+        console.error("Error inicializando DB:", error);
         throw error;
     }
 };
@@ -27,6 +33,7 @@ export const insertSession = async (userId, token) => {
             [userId, token]
         );
     } catch (error) {
+        console.error("Error insertando sesión:", error);
         throw error;
     }
 };
@@ -34,11 +41,10 @@ export const insertSession = async (userId, token) => {
 export const fetchSession = async () => {
     try {
         const db = await openDB();
-        const result = await db.getFirstAsync(
-            "SELECT * FROM sessions LIMIT 1"
-        );
+        const result = await db.getFirstAsync("SELECT * FROM sessions LIMIT 1");
         return result || null;
     } catch (error) {
+        console.error("Error obteniendo sesión:", error);
         return null;
     }
 };
@@ -48,6 +54,7 @@ export const deleteSession = async () => {
         const db = await openDB();
         await db.execAsync("DELETE FROM sessions");
     } catch (error) {
+        console.error("Error eliminando sesión:", error);
         throw error;
     }
 };

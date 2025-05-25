@@ -8,7 +8,6 @@ import Ordenes from '../screens/Ordenes';
 import Previews from '../screens/Previews';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Carrito from '../screens/Carrito';
-import Detail from '../screens/Detail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -17,7 +16,6 @@ const DefaultStack = ({ initialComponent }) => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={initialComponent} />
         <Stack.Screen name="Carrito" component={Carrito} />
-        <Stack.Screen name="Detalle" component={Detail} />
     </Stack.Navigator>
 );
 

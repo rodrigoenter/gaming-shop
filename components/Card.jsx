@@ -28,7 +28,7 @@ const ProductCard = ({ item }) => {
     };
 
     return (
-        <CardWrapper onPress={() => navigation.navigate('Detalle', { product: item })}>
+        <CardWrapper onPress={() => navigation.navigate('Detail', { product: item })}>
             <View style={styles.imageContainer}>
                 {hasImage ? (
                     <Image source={{ uri: item.image }} style={styles.image} />
@@ -68,7 +68,7 @@ const ProductCard = ({ item }) => {
                     styles.detailButton,
                     { opacity: pressed ? 0.8 : 1 }
                 ]}
-                onPress={() => navigation.navigate('Detalle', { product: item })}
+                onPress={() => navigation.navigate('Detail', { product: item })}
             >
                 <CustomText weight="Regular" style={styles.buttonText}>
                     Ver Detalle

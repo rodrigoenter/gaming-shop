@@ -216,8 +216,11 @@ const MenuDrawer = ({ navigation }) => {
                             style={styles.subItemContainer}
                             onPress={() => {
                                 navigation.navigate("Inicio", {
-                                    screen: "HomeTabs",
-                                    params: { screen: "Home", params: { categoria: sub } },
+                                    screen: "ItemListCategory",
+                                    params: {
+                                        categoria: sub,
+                                        initial: false
+                                    },
                                 });
                                 navigation.closeDrawer();
                             }}

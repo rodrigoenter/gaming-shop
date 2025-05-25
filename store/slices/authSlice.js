@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { initDB, insertSession, fetchSession, deleteSession } from "../../database";
+import { createSlice } from '@reduxjs/toolkit';
+import { initDB, insertSession, fetchSession, deleteSession } from '../../database';
 
 const initialState = {
     userId: null,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-    name: "auth",
+    name: 'auth',
     initialState,
     reducers: {
         setUser: (state, action) => {
@@ -35,12 +35,10 @@ export const restoreSession = () => async (dispatch) => {
         await initDB();
         const session = await fetchSession();
         if (session) {
-            dispatch(setUser({
-                userId: session.userId,
-                token: session.token
-            }));
+            dispatch(setUser({ userId: session.userId, token: session.token }));
+        } else {
+            dispatch(setLoading(false));
         }
-        dispatch(setLoading(false));
     } catch (error) {
         console.error("Error restaurando sesión:", error);
         dispatch(setLoading(false));
@@ -49,6 +47,7 @@ export const restoreSession = () => async (dispatch) => {
 
 export const loginAndPersist = (userId, token) => async (dispatch) => {
     try {
+        await initDB();
         await insertSession(userId, token);
         dispatch(setUser({ userId, token }));
     } catch (error) {
@@ -58,6 +57,7 @@ export const loginAndPersist = (userId, token) => async (dispatch) => {
 
 export const logoutAndClear = () => async (dispatch) => {
     try {
+        await initDB();
         await deleteSession();
         dispatch(logout());
     } catch (error) {

@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Image, ScrollView, TouchableOpacity, Pressable } from "react-native";
+import { SafeAreaView, View, Image, ScrollView, TouchableOpacity, Pressable, Share } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomText from "../components/CustomText";
 import { Colors } from '../components/colors';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { agregarAlCarrito } from '../store/slices/carritoSlice';
 import { agregarAFavoritos, quitarDeFavoritos } from '../store/slices/favoritosSlice';
 import Toast from 'react-native-toast-message';
+import Header from "../components/Header";
 
 const Detail = ({ route, navigation }) => {
     const { product } = route.params;
@@ -40,29 +41,28 @@ const Detail = ({ route, navigation }) => {
         }
     };
 
+    const handleCompartir = async () => {
+        try {
+            await Share.share({
+                message: `¡Mira este producto! ${product.title} - ${product.description}`,
+                url: product.image,
+                title: product.title
+            });
+        } catch (_) {
+        }
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
-            <View style={styles.header}>
-                <TouchableOpacity
-                    onPress={() => navigation.goBack()}
-                    style={styles.backButton}
-                >
-                    <Ionicons name="arrow-back" size={30} color={Colors.primary} />
-                    <CustomText style={styles.backText}>
-                        Volver atrás
-                    </CustomText>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Ionicons name="share-social" size={30} color={Colors.primary} />
-                </TouchableOpacity>
-            </View>
+            <Header navigation={navigation} />
 
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
                 <View style={styles.imageContainer}>
                     <Image
                         source={{ uri: product.image }}
                         style={styles.productImage}
                     />
+
                     <View style={styles.discountTag}>
                         <CustomText weight="Bold" style={styles.discountText}>
                             10% OFF
@@ -74,6 +74,14 @@ const Detail = ({ route, navigation }) => {
                             name={isFavorito ? 'heart' : 'heart-outline'}
                             size={24}
                             color={isFavorito ? Colors.primary : Colors.textSecondary}
+                        />
+                    </Pressable>
+
+                    <Pressable style={styles.shareButton} onPress={handleCompartir}>
+                        <Ionicons
+                            name="share-social-outline"
+                            size={24}
+                            color={Colors.secondary}
                         />
                     </Pressable>
                 </View>
@@ -99,6 +107,7 @@ const Detail = ({ route, navigation }) => {
                     <TouchableOpacity
                         onPress={handleAgregarAlCarrito}
                         style={styles.buyButton}
+                        accessibilityLabel="Agregar producto al carrito"
                     >
                         <CustomText style={styles.buttonText}>
                             Agregar al carrito
@@ -111,26 +120,11 @@ const Detail = ({ route, navigation }) => {
 };
 
 const styles = {
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 15,
-        height: 80,
-        marginTop: 40,
-    },
-    backButton: {
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    backText: {
-        fontSize: 16,
-        color: Colors.primary,
-        marginLeft: 10
-    },
     imageContainer: {
         position: 'relative',
         paddingHorizontal: 20,
+        marginTop: 50,
+        marginBottom: 50,
     },
     productImage: {
         width: "100%",
@@ -141,7 +135,7 @@ const styles = {
     discountTag: {
         position: 'absolute',
         top: 20,
-        right: 35,
+        right: 20,
         backgroundColor: Colors.primary,
         borderRadius: 15,
         paddingVertical: 6,
@@ -152,6 +146,24 @@ const styles = {
         color: Colors.textAccent,
         fontSize: 14,
         letterSpacing: 0.5,
+    },
+    favoriteButton: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        borderRadius: 20,
+        padding: 8,
+        zIndex: 2,
+    },
+    shareButton: {
+        position: 'absolute',
+        top: 20,
+        left: 60,
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        borderRadius: 20,
+        padding: 8,
+        zIndex: 2,
     },
     detailsContainer: {
         padding: 20
@@ -192,14 +204,6 @@ const styles = {
     buttonText: {
         color: Colors.textAccent,
         fontSize: 16,
-    },
-    favoriteButton: {
-        position: 'absolute',
-        top: 20,
-        left: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
-        borderRadius: 20,
-        padding: 8,
     },
 };
 

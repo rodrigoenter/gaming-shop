@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import MenuDrawer from '../components/MenuDrawer';
-import ItemListCategory from '../screens/ItemListCategory';
 import StackNavigator from './StackNavigator';
 import AboutUs from '../screens/AboutUs';
 import { Colors } from '../components/colors';
@@ -31,10 +30,6 @@ const DrawerNavigator = () => {
                 name="Inicio"
                 component={StackNavigator}
                 options={{ swipeEnabled: false }}
-            />
-            <Drawer.Screen
-                name="Productos"
-                component={ItemListCategory}
             />
             <Drawer.Screen
                 name="Acerca de nosotros"

@@ -5,7 +5,7 @@ export const agregarOrden = createAsyncThunk(
     async (orden, thunkAPI) => {
         try {
             const response = await fetch(
-                "https://gaming-shop-1ec5c-default-rtdb.firebaseio.com/ordenes.json",
+                "https://gamingshop-new-default-rtdb.firebaseio.com/ordenes.json",
                 {
                     method: "POST",
                     headers: {
@@ -37,7 +37,7 @@ export const fetchOrdenes = createAsyncThunk(
     "ordenes/fetchOrdenes",
     async (_, thunkAPI) => {
         try {
-            const response = await fetch("https://gaming-shop-1ec5c-default-rtdb.firebaseio.com/ordenes.json");
+            const response = await fetch("https://gamingshop-new-default-rtdb.firebaseio.com/ordenes.json");
             const data = await response.json();
 
             if (!data) return [];

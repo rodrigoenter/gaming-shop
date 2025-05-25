@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: [],
+    loaded: false,
 };
 
 const carritoSlice = createSlice({
@@ -36,8 +37,13 @@ const carritoSlice = createSlice({
                 state.items = state.items.filter(i => i.id !== action.payload);
             }
         },
+        setCarrito: (state, action) => {
+            state.items = action.payload;
+            state.loaded = true;
+        },
     },
 });
 
-export const { agregarAlCarrito, quitarDelCarrito, vaciarCarrito, aumentarCantidad, disminuirCantidad } = carritoSlice.actions;
+export const { agregarAlCarrito, quitarDelCarrito, vaciarCarrito, aumentarCantidad, disminuirCantidad, setCarrito } = carritoSlice.actions;
+
 export default carritoSlice.reducer;
