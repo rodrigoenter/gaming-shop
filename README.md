@@ -8,7 +8,7 @@ Gaming Shop es una aplicación ficticia creada en Expo React Native como parte d
 Plataforma que simula una tienda especializada en videojuegos físicos para:  
 - PlayStation 4/5  
 - Xbox Series S/X  
-- Nintendo Switch  
+- Nintendo Switch 1/2
 
 **Objetivo académico:**  
 Aplicar conceptos clave de React Native incluyendo:  
@@ -16,7 +16,10 @@ Aplicar conceptos clave de React Native incluyendo:
 - Gestión de estado con Redux Toolkit  
 - Integración de APIs nativas  
 - Validación de formularios  
-- Persistencia local de datos  
+- Persistencia local de datos
+
+## 🕸️ Wireframes
+[Maquetado/Prototipo Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
 
 ## 🛠 Tecnologías principales
 
@@ -45,7 +48,7 @@ Aplicar conceptos clave de React Native incluyendo:
 🔔 Notificaciones Toast
 
 ### Datos
-🛒 Carrito persistente (Redux)
+🛒 Persistencia de datos (Redux)
 
 📲 Sync offline (SQLite)
 

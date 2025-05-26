@@ -71,7 +71,7 @@ const Carrito = ({ navigation }) => {
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={28} color={Colors.primary} />
-                    <CustomText style={styles.backText}>Volver al inicio</CustomText>
+                    <CustomText style={styles.backText}>Volver atrás</CustomText>
                 </TouchableOpacity>
             </View>
 
@@ -84,9 +84,6 @@ const Carrito = ({ navigation }) => {
                     <CustomText style={styles.emptyText}>
                         Lo sentimos, tu carrito está vacío 🥲{"\n"}Agrega algunos juegos para comenzar.
                     </CustomText>
-                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.returnButton}>
-                        <CustomText style={styles.returnButtonText}>Volver al inicio</CustomText>
-                    </TouchableOpacity>
                 </View>
             ) : (
                 <>

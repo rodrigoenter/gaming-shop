@@ -73,11 +73,12 @@ const ItemListCategory = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     innerContainer: {
         flex: 1,
-        paddingHorizontal: 16,
-        paddingTop: 30,
+        paddingHorizontal: 10,
+        paddingTop: 20,
     },
     listContent: {
         paddingBottom: 30,
+        paddingHorizontal: 60,
     },
     emptyContainer: {
         flex: 1,

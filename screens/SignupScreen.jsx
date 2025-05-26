@@ -25,13 +25,26 @@ const SignupScreen = () => {
     const confirmPasswordRef = useRef();
 
     const handleSignup = async () => {
+        setErrors({});
+
+        const trimmedEmail = email.trim();
+        const trimmedPassword = password.trim();
+        const trimmedConfirmPassword = confirmPassword.trim();
+
+        if (/[A-Z]/.test(trimmedEmail)) {
+            setErrors({ email: "El email no debe contener mayúsculas" });
+            return;
+        }
+
         try {
             signupSchema.validateSync(
-                { email, password, confirmPassword },
+                { email: trimmedEmail, password: trimmedPassword, confirmPassword: trimmedConfirmPassword },
                 { abortEarly: false }
             );
 
-            const res = await signUp({ email, password });
+            const normalizedEmail = trimmedEmail.toLowerCase();
+
+            const res = await signUp({ email: normalizedEmail, password: trimmedPassword });
             dispatch(loginAndPersist(res.localId, res.idToken));
             Toast.show({ type: "success", text1: "¡Registrado exitosamente!" });
         } catch (err) {
@@ -80,6 +93,8 @@ const SignupScreen = () => {
                             error={errors.email}
                             onSubmitEditing={() => passwordRef.current?.focus()}
                             returnKeyType="next"
+                            autoCapitalize="none"
+                            keyboardType="email-address"
                         />
 
                         <InputForm

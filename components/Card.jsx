@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: '100%',
-        resizeMode: 'contain',
+        resizeMode: 'cover',
     },
     placeholder: {
         width: '100%',
@@ -101,14 +101,18 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.border,
     },
     title: {
-        fontSize: 18,
+        fontSize: 16,
         color: Colors.primary,
         marginBottom: 6,
         textAlign: 'center',
+        height: 40,
+        overflow: 'hidden',
     },
     priceContainer: {
+        height: 40,
         alignItems: 'center',
         marginBottom: 12,
+        justifyContent: 'center',
     },
     originalPrice: {
         fontSize: 14,

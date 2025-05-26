@@ -13,6 +13,7 @@ import { subirImagenPerfil, obtenerImagenPerfil } from "../services/profileServi
 import { obtenerDireccionUsuario } from "../services/locationService";
 import { Colors } from "../components/colors";
 import { logoutAndClear } from "../store/slices/authSlice";
+import { useGetAllProductsQuery } from "../services/shopServices";
 
 import PS5Icon from "../assets/iconos_consolas/ps5.svg";
 import PS4Icon from "../assets/iconos_consolas/ps4.svg";
@@ -53,11 +54,15 @@ const MenuDrawer = ({ navigation }) => {
     const userId = useSelector((state) => state.auth.userId);
     const image = useSelector((state) => state.profile.image);
     const direccion = useSelector((state) => state.location.address);
+    const { data: allProducts = [] } = useGetAllProductsQuery();
 
     const [loading, setLoading] = useState(false);
     const [searchText, setSearchText] = useState("");
     const [expanded, setExpanded] = useState({});
-    const [filteredCategorias, setFilteredCategorias] = useState(categorias);
+    const [filteredData, setFilteredData] = useState({
+        categorias: categorias,
+        juegos: []
+    });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -75,24 +80,38 @@ const MenuDrawer = ({ navigation }) => {
     }, [userId]);
 
     useEffect(() => {
-        const lowerSearch = searchText.toLowerCase();
-        const filtradas = categorias
+        const lowerSearch = (searchText?.toLowerCase() || '').trim();
+
+        if (!lowerSearch) {
+            setFilteredData({
+                categorias: categorias,
+                juegos: []
+            });
+            return;
+        }
+
+        const catFiltradas = categorias
             .map((cat) => {
-                const matchCategoria = cat.nombre.toLowerCase().includes(lowerSearch);
+                const matchCategoria = cat.nombre?.toLowerCase()?.includes(lowerSearch);
                 const matchSub = cat.subcategorias.filter((sub) =>
-                    sub.toLowerCase().includes(lowerSearch)
+                    sub?.toLowerCase()?.includes(lowerSearch)
                 );
-                if (matchCategoria || matchSub.length > 0) {
-                    return {
-                        ...cat,
-                        subcategorias: matchCategoria ? cat.subcategorias : matchSub,
-                    };
-                }
-                return null;
+                return matchCategoria || matchSub.length > 0 ? {
+                    ...cat,
+                    subcategorias: matchCategoria ? cat.subcategorias : matchSub,
+                } : null;
             })
             .filter(Boolean);
-        setFilteredCategorias(filtradas);
-    }, [searchText]);
+
+        const juegosFiltrados = allProducts.filter(product =>
+            product?.title?.toLowerCase()?.includes(lowerSearch)
+        );
+
+        setFilteredData({
+            categorias: catFiltradas,
+            juegos: juegosFiltrados
+        });
+    }, [searchText, allProducts]);
 
     const handleSelectImage = async () => {
         const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -177,12 +196,14 @@ const MenuDrawer = ({ navigation }) => {
                             navigation.navigate("Acerca de nosotros");
                             navigation.closeDrawer();
                         } else if (item.nombre === "Dirección de entrega") {
-                            navigation.navigate("Inicio", { screen: "DireccionEntrega" });
+                            navigation.navigate("Inicio", {
+                                screen: "DireccionEntrega"
+                            });
                             navigation.closeDrawer();
                         } else if (item.subcategorias.length === 0) {
-                            navigation.navigate("Inicio", {
-                                screen: "HomeTabs",
-                                params: { screen: "Home", params: { categoria: item.nombre } },
+                            navigation.navigate("HomeTabs", {
+                                screen: "Home",
+                                params: { categoria: item.nombre },
                             });
                             navigation.closeDrawer();
                         } else {
@@ -217,10 +238,7 @@ const MenuDrawer = ({ navigation }) => {
                             onPress={() => {
                                 navigation.navigate("Inicio", {
                                     screen: "ItemListCategory",
-                                    params: {
-                                        categoria: sub,
-                                        initial: false
-                                    },
+                                    params: { categoria: sub }
                                 });
                                 navigation.closeDrawer();
                             }}
@@ -273,9 +291,12 @@ const MenuDrawer = ({ navigation }) => {
                             <Ionicons name="location" size={16} color={Colors.secondary} />
                             <CustomText style={styles.locationText}>{direccion}</CustomText>
                             <TouchableOpacity
-                                onPress={() =>
-                                    navigation.navigate("Inicio", { screen: "DireccionEntrega" })
-                                }
+                                onPress={() => {
+                                    navigation.navigate("Inicio", {
+                                        screen: "DireccionEntrega"
+                                    });
+                                    navigation.closeDrawer();
+                                }}
                                 style={{ marginLeft: 10 }}
                             >
                                 <Ionicons name="pencil" size={18} color={Colors.primary} />
@@ -288,7 +309,10 @@ const MenuDrawer = ({ navigation }) => {
 
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate("Inicio");
+                        navigation.navigate("Inicio", {
+                            screen: "HomeTabs",
+                            params: { screen: "Home" }
+                        });
                         navigation.closeDrawer();
                     }}
                     activeOpacity={0.7}
@@ -304,15 +328,44 @@ const MenuDrawer = ({ navigation }) => {
                     </View>
                 </TouchableOpacity>
 
-                {filteredCategorias.length === 0 ? (
-                    <View style={styles.noResultsContainer}>
-                        <CustomText style={styles.noResultsText}>
-                            No se encontraron resultados
+                {filteredData.juegos.length > 0 && (
+                    <View style={styles.searchResultsContainer}>
+                        <CustomText style={styles.searchResultsTitle}>
+                            Juegos encontrados ({filteredData.juegos.length})
                         </CustomText>
+                        {filteredData.juegos.map((juego) => (
+                            <TouchableOpacity
+                                key={juego.id}
+                                style={styles.gameItem}
+                                onPress={() => {
+                                    navigation.navigate("Inicio", {
+                                        screen: "Detail",
+                                        params: { product: juego }
+                                    });
+                                    navigation.closeDrawer();
+                                }}
+                            >
+                                <CustomText style={styles.gameTitle}>{juego.title}</CustomText>
+                                <CustomText style={styles.gamePrice}>
+                                    ${juego?.price || 'N/A'}
+                                </CustomText>
+                            </TouchableOpacity>
+                        ))}
                     </View>
-                ) : (
+                )}
+
+                {filteredData.categorias.length === 0 &&
+                    filteredData.juegos.length === 0 && (
+                        <View style={styles.noResultsContainer}>
+                            <CustomText style={styles.noResultsText}>
+                                No se encontraron resultados
+                            </CustomText>
+                        </View>
+                    )}
+
+                {filteredData.categorias.length > 0 && (
                     <FlatList
-                        data={filteredCategorias}
+                        data={filteredData.categorias}
                         keyExtractor={(item) => item.nombre}
                         renderItem={renderCategoria}
                         scrollEnabled={false}
@@ -453,6 +506,36 @@ const styles = StyleSheet.create({
     logoutText: {
         color: Colors.textAccent,
         fontSize: 14,
+    },
+    searchResultsContainer: {
+        paddingHorizontal: 20,
+        marginTop: 10,
+    },
+    searchResultsTitle: {
+        fontSize: 14,
+        color: Colors.primary,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    gameItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.lightGray,
+    },
+    gameTitle: {
+        fontSize: 14,
+        color: Colors.secondary,
+        flex: 2,
+    },
+    gamePrice: {
+        fontSize: 14,
+        color: Colors.primary,
+        fontWeight: "bold",
+        flex: 1,
+        textAlign: "right",
     },
 });
 

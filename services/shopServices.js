@@ -20,6 +20,12 @@ export const shopApi = createApi({
                     : [];
             },
         }),
+        getProductById: builder.query({
+            query: (productId) => `juegos/${productId}.json`,
+            transformResponse: (response) => {
+                return response ? { ...response, id: productId } : null;
+            },
+        }),
         getAllProducts: builder.query({
             query: () => "juegos.json",
             transformResponse: (response) => {
@@ -31,4 +37,4 @@ export const shopApi = createApi({
     }),
 });
 
-export const { useGetCategoriesQuery, useGetProductsByCategoryQuery, useGetAllProductsQuery } = shopApi;
+export const { useGetCategoriesQuery, useGetProductsByCategoryQuery, useGetAllProductsQuery, useGetProductByIdQuery } = shopApi;

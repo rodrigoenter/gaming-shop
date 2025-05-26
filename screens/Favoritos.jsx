@@ -30,7 +30,7 @@ const Favoritos = ({ navigation }) => {
             type: 'success',
             text1: 'Agregado al carrito 🛒',
             text2: `${item.title} se ha añadido correctamente.`,
-            position: 'bottom',
+            position: 'top',
         });
     };
 
@@ -66,7 +66,7 @@ const Favoritos = ({ navigation }) => {
             </View>
 
             {favoritos.length === 0 ? (
-                <View style={styles.emptyContainer}>
+                <View style={styles.center}>
                     <Ionicons name="heart-outline" size={120} color={Colors.border} />
                     <CustomText style={styles.emptyText}>
                         Todavía no agregaste favoritos 🥲
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginLeft: 10,
     },
-    emptyContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 100,
+    center: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     emptyText: {
         fontSize: 16,

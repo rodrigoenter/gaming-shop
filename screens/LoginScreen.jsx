@@ -23,16 +23,27 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         setErrors({});
-        if (!email || !password) {
+
+        const trimmedEmail = email.trim();
+        const trimmedPassword = password.trim();
+
+        if (!trimmedEmail || !trimmedPassword) {
             setErrors({
-                email: !email ? "Email requerido" : null,
-                password: !password ? "Password requerido" : null,
+                email: !trimmedEmail ? "Email requerido" : null,
+                password: !trimmedPassword ? "Password requerido" : null,
             });
             return;
         }
 
+        if (/[A-Z]/.test(trimmedEmail)) {
+            setErrors({ email: "El email no debe contener mayúsculas" });
+            return;
+        }
+
+        const normalizedEmail = trimmedEmail.toLowerCase();
+
         try {
-            const res = await login({ email, password });
+            const res = await login({ email: normalizedEmail, password: trimmedPassword });
             dispatch(loginAndPersist(res.localId, res.idToken));
             dispatch(cargarFavoritos(res.localId));
             Toast.show({ type: "success", text1: "¡Sesión iniciada!" });
@@ -67,6 +78,8 @@ const LoginScreen = () => {
                         error={errors.email}
                         onSubmitEditing={() => passwordRef.current?.focus()}
                         returnKeyType="next"
+                        autoCapitalize="none"
+                        keyboardType="email-address"
                     />
 
                     <InputForm

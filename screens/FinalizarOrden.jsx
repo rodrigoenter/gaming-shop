@@ -1,4 +1,5 @@
-import { View, TouchableOpacity, StyleSheet, Modal, ActivityIndicator, TextInput, Image } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Modal, ActivityIndicator, TextInput, Image, Alert } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import { useDispatch, useSelector } from "react-redux";
 import { CommonActions } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -6,7 +7,6 @@ import CustomText from "../components/CustomText";
 import { Colors } from "../components/colors";
 import { vaciarCarrito } from "../store/slices/carritoSlice";
 import { agregarOrden } from "../store/slices/ordenesSlice";
-import { Alert } from "react-native";
 
 const FinalizarOrden = ({ navigation }) => {
     const carrito = useSelector((state) => state.carrito.items);
@@ -23,6 +23,7 @@ const FinalizarOrden = ({ navigation }) => {
     const [expiry, setExpiry] = useState("");
     const [cvv, setCvv] = useState("");
     const [name, setName] = useState("");
+    const [cuotas, setCuotas] = useState("1");
 
     useEffect(() => {
         const timer = setTimeout(() => setIsLoading(false), 1500);
@@ -30,7 +31,7 @@ const FinalizarOrden = ({ navigation }) => {
     }, []);
 
     const handlePagar = () => {
-        if (!cardNumber || !expiry || !cvv || !name) {
+        if (!cardNumber || !expiry || !cvv || !name || !cuotas) {
             Alert.alert(
                 "¡Faltan datos!",
                 "Por favor, completá todos los campos.",
@@ -50,6 +51,7 @@ const FinalizarOrden = ({ navigation }) => {
                 fecha: new Date().toISOString(),
                 items: carrito,
                 total: parseFloat(total),
+                cuotas: parseInt(cuotas),
             };
             dispatch(agregarOrden(nuevaOrden));
             dispatch(vaciarCarrito());
@@ -110,14 +112,15 @@ const FinalizarOrden = ({ navigation }) => {
                         placeholderTextColor="#aaa"
                         keyboardType="numeric"
                         value={cardNumber}
-                        onChangeText={setCardNumber}
+                        onChangeText={(text) => setCardNumber(text.replace(/[^0-9]/g, ""))}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Fecha de expiración (MM/AA)"
                         placeholderTextColor="#aaa"
+                        keyboardType="numeric"
                         value={expiry}
-                        onChangeText={setExpiry}
+                        onChangeText={(text) => setExpiry(text.replace(/[^0-9/]/g, ""))}
                     />
                     <TextInput
                         style={styles.input}
@@ -126,8 +129,28 @@ const FinalizarOrden = ({ navigation }) => {
                         keyboardType="numeric"
                         secureTextEntry
                         value={cvv}
-                        onChangeText={setCvv}
+                        onChangeText={(text) => setCvv(text.replace(/[^0-9]/g, ""))}
                     />
+
+                    <CustomText style={styles.label}>Cuotas sin interés</CustomText>
+                    <View style={styles.pickerContainer}>
+                        <Picker
+                            selectedValue={cuotas}
+                            onValueChange={(itemValue) => setCuotas(itemValue)}
+                            style={styles.picker}
+                            dropdownIconColor={Colors.textAccent}
+                            mode="dropdown"
+                        >
+                            {[1, 2, 3, 4, 5, 6].map((num) => (
+                                <Picker.Item
+                                    key={num}
+                                    label={`${num} cuota${num > 1 ? "s" : ""}`}
+                                    value={num.toString()}
+                                    color={Colors.backgroundDark}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
 
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity onPress={handlePagar} style={styles.confirmButton}>
@@ -142,7 +165,7 @@ const FinalizarOrden = ({ navigation }) => {
             ) : (
                 <>
                     <CustomText style={styles.confirmText}>
-                        ¿Deseás confirmar tu orden por ${total}?
+                        ¿Deseás confirmar tu orden por ${total} en {cuotas} cuota{cuotas > 1 ? "s" : ""}?
                     </CustomText>
                     <View style={styles.buttonsContainer}>
                         <TouchableOpacity
@@ -311,6 +334,25 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 12,
         color: Colors.textAccent,
+    },
+    label: {
+        color: Colors.textAccent,
+        marginTop: 10,
+        marginBottom: 4,
+        fontSize: 14,
+    },
+    pickerContainer: {
+        backgroundColor: Colors.textPrimary,
+        borderRadius: 10,
+        marginBottom: 12,
+        overflow: "hidden",
+        width: "100%",
+        borderWidth: 1,
+    },
+    picker: {
+        color: Colors.textAccent,
+        height: 50,
+        width: "100%",
     },
     cardMock: {
         width: "100%",

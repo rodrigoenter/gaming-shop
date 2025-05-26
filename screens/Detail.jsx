@@ -122,15 +122,16 @@ const Detail = ({ route, navigation }) => {
 const styles = {
     imageContainer: {
         position: 'relative',
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         marginTop: 50,
         marginBottom: 50,
     },
     productImage: {
         width: "100%",
-        height: 300,
+        height: 310,
         resizeMode: "contain",
         borderRadius: 16,
+        resizeMode: "cover",
     },
     discountTag: {
         position: 'absolute',
@@ -159,7 +160,7 @@ const styles = {
     shareButton: {
         position: 'absolute',
         top: 20,
-        left: 60,
+        left: 65,
         backgroundColor: 'rgba(255, 255, 255, 0.6)',
         borderRadius: 20,
         padding: 8,

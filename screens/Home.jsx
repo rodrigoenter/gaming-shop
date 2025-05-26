@@ -48,8 +48,11 @@ const Home = ({ navigation, route }) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id.toString()}
+          contentContainerStyle={styles.listContainer}
           renderItem={({ item }) => (
-            <Card item={item} onPress={() => navigation.navigate("Detail", { product: item })} />
+            <View style={styles.cardContainer}>
+              <Card item={item} onPress={() => navigation.navigate("Detail", { product: item })} />
+            </View>
           )}
         />
       </View>
@@ -141,6 +144,13 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 16,
     color: Colors.textSecondary,
+  },
+  listContainer: {
+    paddingHorizontal: 10,
+  },
+  cardContainer: {
+    width: 260,
+    marginHorizontal: 8,
   },
 });
 

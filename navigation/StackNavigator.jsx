@@ -6,26 +6,28 @@ import Carrito from "../screens/Carrito";
 import Ordenes from "../screens/Ordenes";
 import FinalizarOrden from "../screens/FinalizarOrden";
 import DireccionEntrega from "../screens/DireccionEntrega";
-import AboutUs from "../screens/AboutUs";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigator = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName="HomeTabs"
+        >
             <Stack.Screen name="HomeTabs" component={BottomTabs} />
             <Stack.Screen name="ItemListCategory" component={ItemListCategory} />
             <Stack.Screen name="Carrito" component={Carrito} />
             <Stack.Screen name="Ordenes" component={Ordenes} />
             <Stack.Screen name="FinalizarOrden" component={FinalizarOrden} />
             <Stack.Screen name="DireccionEntrega" component={DireccionEntrega} />
-            <Stack.Screen name="AboutUs" component={AboutUs} />
             <Stack.Screen
                 name="Detail"
                 component={Detail}
-                options={{ presentation: 'modal' }}
+                options={({ route }) => ({
+                    title: route.params?.product?.title || 'Detalle'
+                })}
             />
-
         </Stack.Navigator>
     );
 };
