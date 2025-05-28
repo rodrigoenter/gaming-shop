@@ -12,6 +12,7 @@ Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojueg
 
 ## 🤳 Descargar apk
 [Apk desarrollada para su prueba](https://expo.dev/artifacts/eas/oqt8p6RYMAeFb6GmCUS6gE.apk)
+
 [Descarga alternativa](https://drive.google.com/file/d/15DMh7km2c5BmKn4LazkNZpUMt5m_XhkY/view?usp=sharing)
 
 ## 🎯 Objetivos académicos
