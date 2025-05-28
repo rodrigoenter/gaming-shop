@@ -123,8 +123,8 @@ const styles = {
     imageContainer: {
         position: 'relative',
         paddingHorizontal: 15,
-        marginTop: 50,
-        marginBottom: 50,
+        marginTop: 15,
+        marginBottom: 15,
     },
     productImage: {
         width: "100%",

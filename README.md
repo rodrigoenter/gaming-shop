@@ -1,81 +1,133 @@
-![Gaming Shop](https://iili.io/3QeOozu.png)
-
 # 🎮 Gaming Shop  
 
-Gaming Shop es una aplicación ficticia creada en Expo React Native como parte del curso "Desarrollo de Aplicaciones" de Coderhouse. Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojuegos físicos de distintas consolas, mientras se aplican conceptos clave del desarrollo móvil, como navegación, manejo de estado e integración de librerías.
+![Gaming Shop Banner](https://iili.io/3QeOozu.png)
 
-## 📱 Descripción  
-Plataforma que simula una tienda especializada en videojuegos físicos para:  
-- PlayStation 4/5  
-- Xbox Series S/X  
-- Nintendo Switch 1/2
+Aplicación móvil desarrollada en **React Native (Expo)** para el curso "Desarrollo de Aplicaciones" de Coderhouse. Simula una tienda de videojuegos físicos con funcionalidades claves de e-commerce.
 
-**Objetivo académico:**  
-Aplicar conceptos clave de React Native incluyendo:  
-- Navegación avanzada (Stack, Tabs, Drawer)  
-- Gestión de estado con Redux Toolkit  
-- Integración de APIs nativas  
-- Validación de formularios  
-- Persistencia local de datos
+## 📋 Descripción del proyecto
+Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojuegos de distintas consolas, mientras se aplican los conceptos del curso.
 
 ## 🕸️ Wireframes
-[Maquetado/Prototipo Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
+[Prototipo interactivo en Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
+
+## 🤳 Descargar apk
+[Apk desarrollada para su prueba](https://www)
+
+## 🎯 Objetivos académicos
+
+### 1. Configurar arquitectura base  
+- Implementar estructura inicial con **Expo**  
+- Organizar proyecto en módulos: `assets`, `components`, `services`, `slices`, `screens`
+- Diseñar sistema de navegación  
+
+### 2. Gestionar estado de la aplicación  
+- Utilizar **Redux Toolkit** para:  
+  - Control global del carrito de compras  
+  - Administración de favoritos, órdenes y sesión de usuario  
+- Implementar persistencia offline con **SQLite**  
+
+### 3. Integrar Firebase  
+- Autenticación con Email/Contraseña
+- Sincronización en tiempo real de productos y pedidos
+
+### 4. Implementar interfaces nativas
+- Módulo de cámara (expo-image-picker):
+
+- Localización
+
+- Acceso a galería del dispositivo (expo-media-library)
+
+### 5. Optimizar rendimiento
+- Renderizado
+
+- Carga diferida de imágenes
+
+### 6. Documentar el proyecto
+- Elaborar README.md con:
+
+  - Diagrama de flujo de datos
+
+  - Guía de instalación detallada
 
 ## 🛠 Tecnologías principales
 
-### Dependencias clave  
-- React Native + Expo (SDK ~52)  
-- React Navigation (Stack, Bottom Tabs, Drawer)  
-- Redux Toolkit  
-- Yup (Validación)  
-- React Native Maps  
-- SQLite  
+### Core Dependencies
+| Librería                      | Versión   | Propósito                                                                |
+|-------------------------------|-----------|--------------------------------------------------------------------------|
+| React Navigation              | 7.x       | Sistema combinado Stack + Bottom Tabs + Drawer                          |
+| Redux Toolkit                 | 2.7.0     | Gestión global del estado (carrito, usuario)                             |
+| Expo SQLite                   | 15.1.4    | Almacenamiento local offline                                            |
+| React Native Maps             | 1.18.0    | Mapa interactivo de tiendas físicas                                     |
+| Yup                           | 1.6.1     | Validación de formularios complejos                                     |
+| expo-image-picker             | 16.0.6    | Captura de imágenes para perfil de usuario                              |
+| react-native-toast-message    | 2.3.0     | Sistema de notificaciones visuales                                      |
 
-### Herramientas  
-- Figma (Prototipado)  
-- Android Studio (Emulación)  
-- Adobe Illustrator (Diseño)  
-- Visual Studio Code (Desarrollo)
+### Herramientas
+![Figma](https://img.shields.io/badge/Figma-Diseño_de_prototipo-red)
+![Android Studio](https://img.shields.io/badge/Android_Studio-Emulación-green)
+![Expo EAS](https://img.shields.io/badge/Expo_EAS-Build_APK-blue)
+![Adobe Illustrator](https://img.shields.io/badge/Adobe_Illustrator-Identidad_de_marca-orange)
 
-## 🌟 Funcionalidades destacadas
-### UX
-🗺 Navegación híbrida (Tabs + Drawer)
+## 🌟 Features destacados
 
-📌 Geolocalización de tiendas
+### Experiencia de usuario
+- ☯️ Estructura equilibrada y jerarquizada
+- 🏞️ Estética moderna y fluída
+- ⌛ Indicadores de estados de carga
+- 🔔 Notificaciones de acciones de usuario
+- ⁉️ Manejo de errores puntuales y alertas pertinentes
+- 🔄 Sincronización offline de datos
 
-📸 Captura de imágenes
+### Gestión de datos
+- 🔐 Autenticación con validación Yup
+- 📲 Sync automático al recuperar conexión
+- 🛒 Persistencia de carrito con Redux Persist
+- 📊 Dashboard administrativo (solo modo desarrollo)
 
-🔔 Notificaciones Toast
+## Features integrados en la APK
+✅ **Funcionalidades nativas incluidas:**
+| Módulo       | Librería            | Uso en APK                                  |
+|--------------|---------------------|---------------------------------------------|
+| Geolocalización | `expo-location`   | Mapa + navegación |
+| Cámara       | `expo-image-picker` | Captura de avatar de usuario      |
+| Galería      | `expo-media-library`| Visualización de imágenes locales      |
+| Compartir    | `expo-sharing`      | Compartir juegos via redes sociales/APPs    |
 
-### Datos
-🛒 Persistencia de datos (Redux)
+## 🚀 Instalación
 
-📲 Sync offline (SQLite)
+**Requisitos:**
+- Node.js v18+
+- Expo CLI (`npm install -g expo-cli`)
+- Android Studio/iOS Simulator
 
-🔄 Validación formularios (Yup)
+```bash
+# 1. Clonar repositorio
+git clone https://github.com/rodrigoenter/gaming-shop.git
 
-🔒 Variables de entorno (Dotenv)
+# 2. Instalar dependencias
+cd gaming-shop
+npm install
 
-### Multimedia
-🎥 Reproductor de tráilers
+# 3. Configurar variables de entorno
+"GOOGLE_MAPS_API_KEY=tu_clave_aqui" >
+"FIREBASE_WEB_API_KEY=tu_clave_aqui"
+Reenplazar en .env.example por .env solamente
 
-📷 Galería zoomable
+# 4. Iniciar proyecto
+npx expo start
+```
 
-🖼 Gráficos SVG
-
-🎨 Animaciones (Reanimated)
-
-## 📚 Recursos
+## 📚 Documentación
 [React Native Docs](https://reactnative.dev)
 
 [React Navigation Guide](https://reactnavigation.org)
 
 [Expo Documentation](https://docs.expo.dev)
 
-## 👨💻 Autor
-[Rodrigo Enter](https://github.com/rodrigoenter) - Diseñador gráfico/Ux-Ui
-
 ## 📌 Nota importante
 ⚠ Proyecto académico sin fines comerciales
 
 🚫 No maneja datos sensibles/pagos reales
+
+## 👦🏻💻 Autor
+[Rodrigo Enter](https://github.com/rodrigoenter) - Diseñador gráfico/Ux-Ui

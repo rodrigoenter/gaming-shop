@@ -16,7 +16,9 @@ const Header = ({ navigation }) => {
                     <Ionicons name="menu" size={40} color={Colors.secondary} />
                 </TouchableOpacity>
 
-                <Logo width={100} height={100} />
+                <TouchableOpacity onPress={() => navigation.navigate("HomeTabs")}>
+                    <Logo width={100} height={100} />
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => navigation.navigate("Carrito")}>
                     <View style={styles.cartIconContainer}>

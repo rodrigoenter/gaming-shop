@@ -44,7 +44,7 @@ const VideoPlayerItem = ({ source, title, isActive }) => {
             <VideoView
                 style={styles.video}
                 player={player}
-                contentFit="cover"
+                contentFit="contain"
                 allowsFullscreen={false}
                 allowsPictureInPicture={false}
             />
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     video: {
-        flex: 1,
+        width: '100%',
         height: '100%',
         backgroundColor: 'black',
     },
