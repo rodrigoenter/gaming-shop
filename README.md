@@ -11,7 +11,8 @@ Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojueg
 [Prototipo interactivo en Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
 
 ## 🤳 Descargar apk
-[Apk desarrollada para su prueba](https://www)
+[Apk desarrollada para su prueba](https://expo.dev/artifacts/eas/oqt8p6RYMAeFb6GmCUS6gE.apk)
+[Descarga alternativa](https://drive.google.com/file/d/15DMh7km2c5BmKn4LazkNZpUMt5m_XhkY/view?usp=sharing)
 
 ## 🎯 Objetivos académicos
 
@@ -54,13 +55,13 @@ Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojueg
 ### Core Dependencies
 | Librería                      | Versión   | Propósito                                                                |
 |-------------------------------|-----------|--------------------------------------------------------------------------|
-| React Navigation              | 7.x       | Sistema combinado Stack + Bottom Tabs + Drawer                          |
+| React Navigation              | 7.x       | Sistema combinado Stack + Bottom Tabs + Drawer                           |
 | Redux Toolkit                 | 2.7.0     | Gestión global del estado (carrito, usuario)                             |
-| Expo SQLite                   | 15.1.4    | Almacenamiento local offline                                            |
-| React Native Maps             | 1.18.0    | Mapa interactivo de tiendas físicas                                     |
-| Yup                           | 1.6.1     | Validación de formularios complejos                                     |
-| expo-image-picker             | 16.0.6    | Captura de imágenes para perfil de usuario                              |
-| react-native-toast-message    | 2.3.0     | Sistema de notificaciones visuales                                      |
+| Expo SQLite                   | 15.1.4    | Almacenamiento local offline                                             |
+| React Native Maps             | 1.18.0    | Mapa interactivo                                                         |
+| Yup                           | 1.6.1     | Validación de formularios complejos                                      |
+| expo-image-picker             | 16.0.6    | Captura de imágenes para perfil de usuario                               |
+| react-native-toast-message    | 2.3.0     | Sistema de notificaciones visuales                                       |
 
 ### Herramientas
 ![Figma](https://img.shields.io/badge/Figma-Diseño_de_prototipo-red)
