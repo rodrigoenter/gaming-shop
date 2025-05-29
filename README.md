@@ -8,18 +8,18 @@ Aplicación móvil desarrollada en **React Native (Expo)** para el curso "Desarr
 Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojuegos de distintas consolas, mientras se aplican los conceptos del curso.
 
 ## 🕸️ Wireframes
-[Prototipo interactivo en Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
+[Prototipo en Figma](https://www.figma.com/design/IjgAMDvEcvd9z6oWwgcKtK/Wireframes-app-GamingShop?node-id=0-1&m=dev&t=IzYnWtOZWM4bO4hj-1)
 
 ## 🤳 Descargar apk
 [Apk desarrollada para su prueba](https://expo.dev/artifacts/eas/oqt8p6RYMAeFb6GmCUS6gE.apk)
 
 [Descarga alternativa](https://drive.google.com/file/d/15DMh7km2c5BmKn4LazkNZpUMt5m_XhkY/view?usp=sharing)
 
-## 🎯 Objetivos académicos
+## 🎯 Objetivos del curso
 
 ### 1. Configurar arquitectura base  
 - Implementar estructura inicial con **Expo**  
-- Organizar proyecto en módulos: `assets`, `components`, `services`, `slices`, `screens`
+- Organizar proyecto en módulos: `assets`, `components`, `services`, `slices`, `screens`, `store`, `database`, `navigation`
 - Diseñar sistema de navegación  
 
 ### 2. Gestionar estado de la aplicación  
@@ -47,7 +47,7 @@ Su objetivo es ofrecer una experiencia moderna y sencilla para comprar videojueg
 ### 6. Documentar el proyecto
 - Elaborar README.md con:
 
-  - Diagrama de flujo de datos
+  - Datos del proyecto detallado
 
   - Guía de instalación detallada
 
@@ -110,12 +110,15 @@ git clone https://github.com/rodrigoenter/gaming-shop.git
 cd gaming-shop
 npm install
 
-# 3. Configurar variables de entorno
-"GOOGLE_MAPS_API_KEY=tu_clave_aqui" >
+# 3. Instalar dotenv
+npm install dotenv
+
+# 4. Configurar variables de entorno
+"GOOGLE_API_KEY=tu_clave_aqui"
 "FIREBASE_WEB_API_KEY=tu_clave_aqui"
 Reenplazar en .env.example por .env solamente
 
-# 4. Iniciar proyecto
+# 5. Iniciar proyecto
 npx expo start
 ```
 
